@@ -1,19 +1,33 @@
 package me.rrs.Listener;
 
-import me.rrs.EnderPlus;
 import me.rrs.Util.Util;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 public class ChestClose implements Listener {
 
-    @EventHandler
+    Util util = new Util();
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEchestClose(InventoryCloseEvent event){
-        if (event.getView().getTitle().contains(event.getPlayer().getName() + "'s Ender Chest")){
-            Util.Echest.put(event.getPlayer().getName(), event.getInventory().getContents());
-            Util util = new Util();
-            util.saveInvs();
+        if (event.getInventory().getType() == InventoryType.CHEST){
+            if (event.getInventory() == Util.inventory){
+
+                if (event.getView().getTitle().endsWith("'s Ender Chest")){
+                    String title = event.getView().getTitle();
+                    String name = title.replaceAll("'s Ender Chest", "").trim();
+                    Player player = Bukkit.getPlayer(name);
+                    Util.Echest.put(player.getName(), event.getInventory().getContents());
+                    util.saveInvs();
+                }
+            }
+
         }
+
     }
 }

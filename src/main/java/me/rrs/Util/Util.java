@@ -12,7 +12,7 @@ import java.util.Map;
 public class Util {
 
     public static Map<String, ItemStack[]> Echest = new HashMap<>();
-    static Inventory inventory;
+    public static Inventory inventory;
 
 
 
@@ -24,6 +24,17 @@ public class Util {
             inventory.setContents(Echest.get(player.getName()));
         }
         player.openInventory(inventory);
+
+    }
+
+    public static void inv(Player player, int size, Player sender){
+
+        inventory = Bukkit.createInventory(player, size, player.getName() + "'s Ender Chest");
+
+        if (Echest.containsKey(player.getName())){
+            inventory.setContents(Echest.get(player.getName()));
+        }
+        sender.openInventory(inventory);
 
     }
 

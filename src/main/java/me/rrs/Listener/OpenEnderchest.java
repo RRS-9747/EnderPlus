@@ -3,6 +3,7 @@ package me.rrs.Listener;
 import me.rrs.Util.Util;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -10,15 +11,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class OpenEnderchest implements Listener {
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getClickedBlock() != null) {
             if (e.getClickedBlock().getType() == Material.ENDER_CHEST) {
                 if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    e.setCancelled(true);
                     if (!e.getPlayer().isOp()) {
-                        e.setCancelled(true);
-
-
                         if (e.getPlayer().hasPermission("enderplus.lvl.1")) {
                             Util.inv(e.getPlayer(), 9);
                         }
@@ -38,9 +37,8 @@ public class OpenEnderchest implements Listener {
                             Util.inv(e.getPlayer(), 54);
                         }
 
-                    }else{
-                        Util.inv(e.getPlayer(), 54);
-                    }
+                    }else Util.inv(e.getPlayer(), 54);
+
                 }
             }
         }

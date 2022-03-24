@@ -25,7 +25,7 @@ public class ServerLoad implements Listener {
         if (hasUpdateGitHub){
                 if (updateChecker) {
                     Bukkit.getLogger().warning("EnderPlus new version is available!");
-                    Bukkit.getLogger().warning("Download it from: https://bit.ly/3D8VM19");
+                    Bukkit.getLogger().warning("Download it from: https://bit.ly/enderplus");
 
                 }
         }

@@ -14,8 +14,9 @@ import me.rrs.Listener.ServerLoad;
 import me.rrs.Util.Metrics;
 import me.rrs.Util.Util;
 import me.rrs.Util.Data;
+import me.rrs.commands.enderchest;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,8 +42,13 @@ public final class EnderPlus extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        Metrics metrics = new Metrics(this, 14719);
+        if (!this.getDescription().getName().equals("EnderPlus")){
+            Bukkit.getLogger().severe("You can't change my name!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
+        Metrics metrics = new Metrics(this, 14719);
         Instance = this;
         Data data = new Data();
         data.createDataConfig();
@@ -58,8 +64,8 @@ public final class EnderPlus extends JavaPlugin {
             e.printStackTrace();
         }
 
-
         if (Data.getData().contains("data")) {
+            Bukkit.getLogger().warning("Restoring EnderChest...");
             util.restoreInvs();
         }
 
@@ -67,14 +73,24 @@ public final class EnderPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChestClose(), this);
         getServer().getPluginManager().registerEvents(new ServerLoad(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getCommand("enderchest").setExecutor(new enderchest());
 
     }
 
     @Override
     public void onDisable() {
         if (!Util.Echest.isEmpty()) {
+            Bukkit.getLogger().warning("Saving EnderChest...");
             util.saveInvs();
         }
+
+        Bukkit.getLogger().warning("EnderPlus Disabled.");
+    }
+
+    @Override
+    public void onLoad(){
+        Bukkit.getLogger().warning("Join Discord server for support");
+        Bukkit.getLogger().warning("https://discord.gg/fV4P2yMSgR");
     }
 
 
