@@ -24,7 +24,6 @@ public class Data {
         }
     }
 
-
     public void createDataConfig() {
         dataFile = new File(EnderPlus.getInstance().getDataFolder(), "data.yml");
         if (!dataFile.exists()) {
@@ -39,8 +38,5 @@ public class Data {
             e.printStackTrace();
         }
     }
-
-
-
 
 }

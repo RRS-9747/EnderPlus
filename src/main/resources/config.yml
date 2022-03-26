@@ -1,3 +1,10 @@
+# Thanks for using HeadDrop.
+# For bug report or suggestion, join https://discord.gg/fV4P2yMSgR
+
+# Config.Enable = false means player will get normal Ender chest. but players can still get access to custom enderchest by /ec with perm
+# I suggest to use luckperms for permission
+# Don't change Config.Version or plugin will break
 Config:
+  Enable: true
   Update-Checker: true
-  Version: 1.1
+  Version: 1.2

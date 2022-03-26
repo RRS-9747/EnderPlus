@@ -15,11 +15,10 @@ public class ServerLoad implements Listener {
     @EventHandler
     public void onLoad(ServerLoadEvent event){
 
+        UpdateAPI updateAPI = new UpdateAPI();
 
-        boolean hasUpdateGitHub = UpdateAPI.hasGithubUpdate("RRS-9747", "EnderPlus");
+        boolean hasUpdateGitHub = updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus");
         boolean updateChecker = EnderPlus.getConfiguration().getBoolean("Config.Update-Checker");
-
-
 
 
         if (hasUpdateGitHub){

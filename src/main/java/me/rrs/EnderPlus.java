@@ -7,14 +7,11 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
-import me.rrs.Listener.ChestClose;
-import me.rrs.Listener.OpenEnderchest;
-import me.rrs.Listener.PlayerJoin;
-import me.rrs.Listener.ServerLoad;
+import me.rrs.Commands.*;
+import me.rrs.Listener.*;
 import me.rrs.Util.Metrics;
 import me.rrs.Util.Util;
 import me.rrs.Util.Data;
-import me.rrs.commands.enderchest;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,11 +22,12 @@ import java.io.IOException;
 public final class EnderPlus extends JavaPlugin {
 
     Util util = new Util();
-
+    Data data = new Data();
 
 
     private static EnderPlus Instance;
     private static YamlDocument config;
+    private static YamlDocument lang;
 
 
     public static EnderPlus getInstance() {
@@ -37,6 +35,9 @@ public final class EnderPlus extends JavaPlugin {
     }
     public static YamlDocument getConfiguration() {
         return config;
+    }
+    public static YamlDocument getLang() {
+        return lang;
     }
 
     @Override
@@ -50,7 +51,6 @@ public final class EnderPlus extends JavaPlugin {
 
         Metrics metrics = new Metrics(this, 14719);
         Instance = this;
-        Data data = new Data();
         data.createDataConfig();
 
         try {
@@ -60,6 +60,13 @@ public final class EnderPlus extends JavaPlugin {
                     DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setAutoSave(true).setVersioning(new Pattern(Segment.range(1, Integer.MAX_VALUE),
                             Segment.literal("."), Segment.range(0, 10)), "Config.Version").build());
+
+            lang = YamlDocument.create(new File(getDataFolder(), "lang.yml"), getResource("lang.yml"),
+                    GeneralSettings.DEFAULT,
+                    LoaderSettings.builder().setAutoUpdate(true).build(),
+                    DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setAutoSave(true).setVersioning(new Pattern(Segment.range(1, Integer.MAX_VALUE),
+                            Segment.literal("."), Segment.range(0, 10)), "Version").build());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,7 +80,9 @@ public final class EnderPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChestClose(), this);
         getServer().getPluginManager().registerEvents(new ServerLoad(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-        getCommand("enderchest").setExecutor(new enderchest());
+        getCommand("enderchest").setExecutor(new EnderChest());
+        getCommand("enderplus").setExecutor(new MainCommand());
+        getCommand("enderplus").setTabCompleter(new me.rrs.TabCompleter.EnderPlus());
 
     }
 
@@ -85,12 +94,6 @@ public final class EnderPlus extends JavaPlugin {
         }
 
         Bukkit.getLogger().warning("EnderPlus Disabled.");
-    }
-
-    @Override
-    public void onLoad(){
-        Bukkit.getLogger().warning("Join Discord server for support");
-        Bukkit.getLogger().warning("https://discord.gg/fV4P2yMSgR");
     }
 
 
