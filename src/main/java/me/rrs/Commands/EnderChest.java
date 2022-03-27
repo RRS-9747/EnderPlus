@@ -44,7 +44,7 @@ public class EnderChest implements CommandExecutor {
                     } else {
                         util.inv(player, 54);
                     }
-                } else player.sendMessage("You don't have permission to run this command!");
+                } else player.sendMessage("You don't have permission to run this command!"); //TODO -> add lang.yml
 
             }
             if (args.length > 0){

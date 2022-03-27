@@ -78,7 +78,6 @@ public final class EnderPlus extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new OpenEnderchest(), this);
         getServer().getPluginManager().registerEvents(new ChestClose(), this);
-        getServer().getPluginManager().registerEvents(new ServerLoad(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
@@ -90,7 +89,7 @@ public final class EnderPlus extends JavaPlugin {
     public void onDisable() {
         if (!Util.Echest.isEmpty()) {
             Bukkit.getLogger().warning("Saving EnderChest...");
-            util.saveInvs();
+            Util.saveInvs();
         }
 
         Bukkit.getLogger().warning("EnderPlus Disabled.");
