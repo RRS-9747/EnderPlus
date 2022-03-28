@@ -15,7 +15,7 @@ public class Lang {
     }
 
     public void noPerm(Player player){
-        this.msg("&c&l[HeadDrop]&r", "Permission-Error", player);
+        this.msg("&c&l[EnderPlus]&r", "Permission-Error", player);
     }
 
     public void pcmd(){

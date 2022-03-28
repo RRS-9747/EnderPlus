@@ -44,7 +44,7 @@ public class EnderChest implements CommandExecutor {
                     } else {
                         util.inv(player, 54);
                     }
-                } else player.sendMessage("You don't have permission to run this command!"); //TODO -> add lang.yml
+                } else lang.noPerm(player);
 
             }
             if (args.length > 0){
@@ -71,13 +71,9 @@ public class EnderChest implements CommandExecutor {
                                 util.inv(p, 54, player);
                             }
                         } else util.inv(p, 54, player);
-                    }
-                }else player.sendMessage("You don't have permission to run this command!");
+                    }else lang.msg("&c&l[EnderPlus]&r", "NoPlayer", player);
+                }else lang.noPerm(player);
             }
-
-
-
-
 
         }else lang.pcmd();
 
