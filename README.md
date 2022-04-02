@@ -2,7 +2,6 @@
 
 [![Discord](https://discordapp.com/api/guilds/726505535192694864/widget.png)](https://discord.gg/fV4P2yMSgR)
 [![Release](https://img.shields.io/github/release/RRS-9747/EnderPlus.svg)](https://github.com/RRS-9747/EnderPlus/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/RRS-9747/EnderPlus/total.svg)](https://github.com/RRS-9747/EnderPlus/releases/latest)
 ![](https://img.shields.io/github/languages/code-size/RRS-9747/EnderPlus.svg "Code size in bytes")
 [![CodeFactor](https://www.codefactor.io/repository/github/rrs-9747/EnderPlus/badge)](https://www.codefactor.io/repository/github/rrs-9747/EnderPlus)
 [![License](https://img.shields.io/github/license/RRS-9747/EnderPlus.svg)](https://github.com/RRS-9747/EnderPlus/blob/master/LICENSE)<br>
