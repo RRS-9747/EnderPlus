@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Util {
 
-    public static Map<String, ItemStack[]> Echest = new HashMap<>();
+    public static HashMap<String, ItemStack[]> Echest = new HashMap<>();
     public static Inventory inventory;
 
     public void inv(Player player, int size){

@@ -7,4 +7,7 @@
 Config:
   Enable: true
   Update-Checker: true
-  Version: 1.4
+  Version: 1.5
+
+Enderchest:
+  Convert-onJoin: false

@@ -19,10 +19,6 @@ import java.util.Date;
 public class PlayerJoin implements Listener {
 
     UpdateAPI updateAPI = new UpdateAPI();
-    String newVersion = updateAPI.getGithubVersion("RRS-9747", "EnderPlus");
-    boolean hasUpdateGitHub = updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus");
-    boolean updateChecker = EnderPlus.getConfiguration().getBoolean("Config.Update-Checker");
-
     Date date = new Date();
     DateFormat dateFormat = new SimpleDateFormat("dd/MM");
     String currentDate = dateFormat.format(date);
@@ -30,21 +26,25 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        if (event.getPlayer().getEnderChest().getContents() != null){
-            ItemStack[] itemstacks = event.getPlayer().getEnderChest().getContents();
-            Util.Echest.put(event.getPlayer().getName(), itemstacks);
-            event.getPlayer().getEnderChest().clear();
+        if (EnderPlus.getConfiguration().getBoolean("Config.Enable")) {
+            if (EnderPlus.getConfiguration().getBoolean("Enderchest.Convert-onJoin")) {
+                if (event.getPlayer().getEnderChest().getContents() != null) {
+                    ItemStack[] itemstacks = event.getPlayer().getEnderChest().getContents();
+                    Util.Echest.put(event.getPlayer().getName(), itemstacks);
+                    event.getPlayer().getEnderChest().clear();
+                }
+            }
         }
 
 
         if (event.getPlayer().hasPermission("enderplus.notify")) {
-            if (updateChecker && hasUpdateGitHub) {
-                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You are using EnderPlus" + EnderPlus.getInstance().getDescription().getVersion()));
-                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "However version " + newVersion + " is available."));
-                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You can download it from: https://bit.ly/enderplus"));
-                if (event.getPlayer().hasPermission("enderplus.update") && Bukkit.getPluginManager().isPluginEnabled("RRSUpdater")) {
-                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You can also do /update to update the plugin, but suggest to download from spigot ;)"));
+            if (EnderPlus.getConfiguration().getBoolean("Config.Update-Checker")) {
+                if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You are using EnderPlus" + EnderPlus.getInstance().getDescription().getVersion()));
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "However version " + updateAPI.getGithubVersion("RRS-9747", "EnderPlus") + " is available."));
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You can download it from: https://bit.ly/enderplus"));
                 }
+
             }
         }
 
