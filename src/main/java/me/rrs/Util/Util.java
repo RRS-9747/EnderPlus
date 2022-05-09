@@ -21,8 +21,10 @@ public class Util {
             inventory.setContents(Echest.get(player.getName()));
         }
         player.openInventory(inventory);
+        try{
             player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
-
+        }catch (Error ignore){
+        }
     }
 
 

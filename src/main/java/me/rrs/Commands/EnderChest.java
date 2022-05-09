@@ -19,30 +19,33 @@ public class EnderChest implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
+
                 if (player.hasPermission("enderplus.ec.own")) {
-                    if (!player.isOp()) {
+
+                    if (player.isOp()) {
+                        util.inv(player, 54);
+                    }else {
 
                         if (player.hasPermission("enderplus.lvl.1")) {
                             util.inv(player, 9);
-                        }
-                        if (player.hasPermission("enderplus.lvl.2")) {
-                            util.inv(player, 18);
-                        }
-                        if (player.hasPermission("enderplus.lvl.3")) {
-                            util.inv(player, 27);
-                        }
-                        if (player.hasPermission("enderplus.lvl.4")) {
-                            util.inv(player, 36);
-                        }
-                        if (player.hasPermission("enderplus.lvl.5")) {
-                            util.inv(player, 45);
-                        }
-                        if (player.hasPermission("enderplus.lvl.6")) {
-                            util.inv(player, 54);
-                        }
 
-                    } else {
-                        util.inv(player, 54);
+                        }else if (player.hasPermission("enderplus.lvl.2")) {
+                            util.inv(player, 18);
+
+                        }else if (player.hasPermission("enderplus.lvl.3")) {
+                            util.inv(player, 27);
+
+                        } else if (player.hasPermission("enderplus.lvl.4")) {
+                            util.inv(player, 36);
+
+                        } else if (player.hasPermission("enderplus.lvl.5")) {
+                            util.inv(player, 45);
+
+                        } else if (player.hasPermission("enderplus.lvl.6")) {
+                            util.inv(player, 54);
+
+                        }else lang.msg("&c&l[EnderPlus]&r", "No-Echest", player);
+
                     }
                 } else lang.noPerm(player);
 
@@ -54,22 +57,23 @@ public class EnderChest implements CommandExecutor {
                         if (!p.isOp()) {
                             if (p.hasPermission("enderplus.lvl.1")) {
                                 util.inv(p, 9, player);
-                            }
-                            if (p.hasPermission("enderplus.lvl.2")) {
+
+                            }else if (p.hasPermission("enderplus.lvl.2")) {
                                 util.inv(p, 18, player);
-                            }
-                            if (p.hasPermission("enderplus.lvl.3")) {
+
+                            }else if (p.hasPermission("enderplus.lvl.3")) {
                                 util.inv(p, 27, player);
-                            }
-                            if (p.hasPermission("enderplus.lvl.4")) {
+
+                            }else if (p.hasPermission("enderplus.lvl.4")) {
                                 util.inv(p, 36, player);
-                            }
-                            if (p.hasPermission("enderplus.lvl.5")) {
+
+                            }else if (p.hasPermission("enderplus.lvl.5")) {
                                 util.inv(p, 45, player);
-                            }
-                            if (p.hasPermission("enderplus.lvl.6")) {
+
+                            }else if (p.hasPermission("enderplus.lvl.6")) {
                                 util.inv(p, 54, player);
                             }
+
                         } else util.inv(p, 54, player);
                     }else lang.msg("&c&l[EnderPlus]&r", "NoPlayer", player);
                 }else lang.noPerm(player);

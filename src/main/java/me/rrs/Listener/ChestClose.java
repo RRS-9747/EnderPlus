@@ -18,12 +18,16 @@ public class ChestClose implements Listener {
         if (event.getInventory().getType() == InventoryType.CHEST){
             if (event.getInventory() == Util.inventory){
                 if (event.getView().getTitle().endsWith("'s Ender Chest")){
-                    p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1, 1);
+                    try{
+                        p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1, 1);
+                    }catch (Error ignore){
+                    }
                     String title = event.getView().getTitle();
                     String name = title.replaceAll("'s Ender Chest", "").trim();
                     Player player = Bukkit.getPlayer(name);
                     Util.Echest.put(player.getName(), event.getInventory().getContents());
                     Util.saveInvs();
+
 
                 }
             }
