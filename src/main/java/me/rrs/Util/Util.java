@@ -16,6 +16,7 @@ public class Util {
     public static Inventory inventory;
 
     public void inv(Player player, int size){
+
         inventory = Bukkit.createInventory(player, size, player.getName() + "'s Ender Chest");
         if (Echest.containsKey(player.getName())){
             inventory.setContents(Echest.get(player.getName()));

@@ -1,13 +1,15 @@
 name: EnderPlus
 version: '${project.version}'
 main: me.rrs.EnderPlus
-api-version: 1.18
+api-version: 1.13
 authors: [ RRS ]
 softdepend:
   - RRSUpdater
+  - PlaceholderAPI
 prefix: EnderPlus
 description: Better EnderChest for your server
 website: https://discord.gg/fV4P2yMSgR
+
 commands:
   enderchest:
     aliases:
@@ -17,6 +19,11 @@ commands:
     permission: enderplus.ec.own
     permission-message: You don't have permission to run this command!
     usage: /enderchest
+  enderplus:
+    aliases:
+      - ep
+    description: Main command of EnderPlus
+
 permissions:
   enderplus.lvl.1:
     description: Set Enderchest size to 9 slot
@@ -36,6 +43,8 @@ permissions:
     description: Access other echest by /enderchest <player> command
   enderplus.notify:
     description: Notify about update & events
+  enderplus.reload:
+    description: Reload EnderPlus plugin
 
 
 

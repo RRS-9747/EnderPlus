@@ -3,7 +3,6 @@ package me.rrs.Listener;
 import me.rrs.EnderPlus;
 import me.rrs.Util.UpdateAPI;
 import me.rrs.Util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

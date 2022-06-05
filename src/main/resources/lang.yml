@@ -1,0 +1,6 @@
+Version: 1.7
+Reload: "Plugin reloaded!"
+Permission-Error: "You don't have permission to run this command!"
+NoPlayer: "No player found with that name!"
+No-Echest: "You don't have any EnderChest"
+
