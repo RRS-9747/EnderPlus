@@ -15,12 +15,23 @@ public class Util {
     public static HashMap<String, ItemStack[]> Echest = new HashMap<>();
     public static Inventory inventory;
 
+
     public void inv(Player player, int size){
 
         inventory = Bukkit.createInventory(player, size, player.getName() + "'s Ender Chest");
         if (Echest.containsKey(player.getName())){
-            inventory.setContents(Echest.get(player.getName()));
+
+            ItemStack[] echestContents = Echest.get(player.getName());
+            if (echestContents.length > size) {
+                for (int i = 0; i < size; i++) {
+                    inventory.setItem(i, echestContents[i]);
+                }
+            }else  inventory.setContents(Echest.get(player.getName()));
+
         }
+
+
+
         player.openInventory(inventory);
         try{
             player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
