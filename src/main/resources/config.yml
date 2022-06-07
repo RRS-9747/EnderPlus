@@ -7,7 +7,7 @@
 Config:
   Enable: true
   Update-Checker: true
-  Version: 1.5
+  Version: 1.8
 
 Enderchest:
   Convert-onJoin: false
