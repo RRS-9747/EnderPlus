@@ -1,4 +1,4 @@
-# Thanks for using HeadDrop.
+# Thanks for using EnderPlus.
 # For bug report or suggestion, join https://discord.gg/fV4P2yMSgR
 
 # Config.Enable = false means player will get normal Ender chest. but players can still get access to custom enderchest by /ec with perm
@@ -7,7 +7,7 @@
 Config:
   Enable: true
   Update-Checker: true
-  Version: 1.8
+  Version: 1.9
 
 Enderchest:
   Convert-onJoin: false
