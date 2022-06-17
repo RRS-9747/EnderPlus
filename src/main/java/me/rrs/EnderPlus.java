@@ -13,10 +13,13 @@ import me.rrs.Util.Metrics;
 import me.rrs.Util.Util;
 import me.rrs.Util.Data;
 import org.bukkit.Bukkit;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.bukkit.permissions.PermissionDefault.TRUE;
 
 
 public final class EnderPlus extends JavaPlugin {
@@ -44,7 +47,7 @@ public final class EnderPlus extends JavaPlugin {
     public void onEnable() {
 
         if (!this.getDescription().getName().equals("EnderPlus")){
-            Bukkit.getLogger().severe("You can't change my name!");
+            Bukkit.getLogger().severe("Something wrong! Please download a fresh jar file from https://spigotmc.org");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }

@@ -5,6 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,13 +31,16 @@ public class Util {
 
         }
 
-
-
         player.openInventory(inventory);
-        try{
-            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
-        }catch (Error ignore){
-        }
+
+        String version = Bukkit.getServer().getVersion();
+        if (version.contains("1.8")) {
+            player.playSound(player.getLocation(), Sound.valueOf("CHEST_OPEN"), 1, 1);
+
+        } else if (version.contains("1.9") || version.contains("1.10") || version.contains("1.11") || version.contains("1.12")) {
+            player.playSound(player.getLocation(), Sound.valueOf("BLOCK_ENDERCHEST_OPEN"), 1, 1);
+
+        }else player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
     }
 
 
@@ -58,6 +62,7 @@ public class Util {
 
 
     public void restoreInvs() {
+
             Data.getData().getConfigurationSection("data").getKeys(false).forEach(key -> {
                 ItemStack[] content = ((List<ItemStack>) Data.getData().get("data." + key)).toArray(new ItemStack[0]);
                 Util.Echest.put(key, content);
