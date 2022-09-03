@@ -1,0 +1,24 @@
+name: EnderPlus
+version: ${project.version}
+main: me.rrs.EnderPlus
+api-version: 1.13
+authors: [ RRS ]
+softdepend:
+  - PlaceholderAPI
+prefix: EnderPlus
+description: Better EnderChest for your server
+website: https://discord.gg/fV4P2yMSgR
+
+commands:
+  enderchest:
+    aliases:
+      - ec
+      - echest
+    description: Access custom enderchest with command.
+    permission: enderplus.ec.own
+    permission-message: You don't have permission to run this command!
+    usage: /enderchest
+  enderplus:
+    aliases:
+      - ep
+    description: Main command of EnderPlus
