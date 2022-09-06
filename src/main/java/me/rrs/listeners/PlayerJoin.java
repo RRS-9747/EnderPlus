@@ -38,7 +38,6 @@ public class PlayerJoin implements Listener {
         }
 
 
-
         if (event.getPlayer().hasPermission("enderplus.notify")) {
             if (EnderPlus.getConfiguration().getBoolean("Config.Update-Checker")) {
                 if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
