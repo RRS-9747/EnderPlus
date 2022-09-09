@@ -9,6 +9,8 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import me.rrs.commands.EnderChest;
 import me.rrs.commands.MainCommand;
+import me.rrs.db.Database;
+import me.rrs.db.Listeners;
 import me.rrs.listeners.EnderChestOpen;
 import me.rrs.listeners.InventoryClose;
 import me.rrs.listeners.PlayerJoin;
@@ -18,12 +20,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public final class EnderPlus extends JavaPlugin {
 
+    private Database database;
     private static EnderPlus plugin;
     private static YamlDocument config;
     private static YamlDocument lang;
+
+
 
     public static EnderPlus getInstance() {
         return plugin;
@@ -40,7 +46,7 @@ public final class EnderPlus extends JavaPlugin {
     public void onEnable() {
 
         if (!this.getDescription().getName().equals("EnderPlus")){
-            Bukkit.getLogger().severe("Something wrong! Please download a fresh jar file from https://spigotmc.org");
+            Bukkit.getLogger().severe("Something wrong! Please download a fresh jar file from https://www.spigotmc.org/resources/100897/");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -65,8 +71,11 @@ public final class EnderPlus extends JavaPlugin {
             e.printStackTrace();
         }
 
-
         plugin = this;
+
+
+
+
 
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
@@ -77,6 +86,17 @@ public final class EnderPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClose(), this);
         getServer().getPluginManager().registerEvents(new EnderChestOpen(), this);
 
+
+        if (config.getBoolean("Database.Enable")) {
+            try {
+                this.database = new Database();
+                this.database.initializeDatabase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not initialize database.");
+            }
+            getServer().getPluginManager().registerEvents(new Listeners(database), this);
+        }
 
     }
 

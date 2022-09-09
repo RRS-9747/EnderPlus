@@ -6,7 +6,15 @@
 
 Config:
   Update-Checker: true
-  Version: 2.2
+  Version: 2.3
+
+Database:
+  Enable: false
+  Url: "localhost"
+  Name: "enderplus"
+  User: "root"
+  Password: ""
+
 
 Enderchest:
   Convert-onJoin: true

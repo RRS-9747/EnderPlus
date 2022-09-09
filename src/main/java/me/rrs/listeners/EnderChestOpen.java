@@ -26,31 +26,33 @@ public class EnderChestOpen implements Listener {
 
         if (event.getClickedBlock() != null) {
             if (event.getClickedBlock().getType() == Material.ENDER_CHEST) {
-                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    event.setCancelled(true);
+                if (!event.isCancelled()) {
+                    if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                        event.setCancelled(true);
 
-                    Player p = event.getPlayer();
+                        Player p = event.getPlayer();
 
-                    if (p.hasPermission("enderplus.lvl.6")) {
-                        InvUtils.enderInv(p, 54);
+                        if (p.hasPermission("enderplus.lvl.6")) {
+                            InvUtils.enderInv(p, 54);
 
-                    } else if (p.hasPermission("enderplus.lvl.5")) {
-                        InvUtils.enderInv(p, 45);
+                        } else if (p.hasPermission("enderplus.lvl.5")) {
+                            InvUtils.enderInv(p, 45);
 
-                    } else if (p.hasPermission("enderplus.lvl.4")) {
-                        InvUtils.enderInv(p, 36);
+                        } else if (p.hasPermission("enderplus.lvl.4")) {
+                            InvUtils.enderInv(p, 36);
 
-                    } else if (p.hasPermission("enderplus.lvl.3")) {
-                        InvUtils.enderInv(p, 27);
+                        } else if (p.hasPermission("enderplus.lvl.3")) {
+                            InvUtils.enderInv(p, 27);
 
-                    } else if (p.hasPermission("enderplus.lvl.2")) {
-                        InvUtils.enderInv(p, 18);
+                        } else if (p.hasPermission("enderplus.lvl.2")) {
+                            InvUtils.enderInv(p, 18);
 
-                    } else if (p.hasPermission("enderplus.lvl.1")) {
-                        InvUtils.enderInv(p, 9);
+                        } else if (p.hasPermission("enderplus.lvl.1")) {
+                            InvUtils.enderInv(p, 9);
 
-                    }else lang.msg("&c&l[EnderPlus]&r", "No-Echest", p);
+                        } else lang.msg("&c&l[EnderPlus]&r", "No-Echest", p);
 
+                    }
                 }
             }
         }

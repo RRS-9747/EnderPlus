@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class InvUtils {
 
-
     public static void enderInv(Player player, int size){
 
         Inventory enderplus = Bukkit.createInventory(player, size, "Ender Chest");

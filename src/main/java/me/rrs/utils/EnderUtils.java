@@ -1,11 +1,14 @@
 package me.rrs.utils;
 
 import me.rrs.EnderPlus;
+import me.rrs.db.EnderData;
+import me.rrs.db.Listeners;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
@@ -17,6 +20,7 @@ import java.util.Base64;
 import java.util.List;
 
 public class EnderUtils {
+    public static String encodedItem;
 
     public static void storeItems(List<ItemStack> items, Player p){
 
@@ -24,6 +28,7 @@ public class EnderUtils {
 
         if (items.size() == 0){
             data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
+
         }else{
 
             try{
@@ -42,6 +47,7 @@ public class EnderUtils {
                 byte[] rawData = io.toByteArray();
 
                 String encodedData = Base64.getEncoder().encodeToString(rawData);
+                encodedItem = encodedData;
 
                 data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, encodedData);
 
@@ -57,18 +63,28 @@ public class EnderUtils {
 
     public static ArrayList<ItemStack> getItems(Player p){
 
+        String encodedItems;
+
         PersistentDataContainer data = p.getPersistentDataContainer();
 
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        String encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
+        if (EnderPlus.getConfiguration().getBoolean("Database.Enable")){
+
+            try {
+                EnderData ed = Listeners.getPlayerFromDatabase(p);
+                encodedItems = ed.getdata();
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }else encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
 
         if (!encodedItems.isEmpty()){
 
             byte[] rawData = Base64.getDecoder().decode(encodedItems);
 
             try{
-
                 ByteArrayInputStream io = new ByteArrayInputStream(rawData);
                 BukkitObjectInputStream in = new BukkitObjectInputStream(io);
 
