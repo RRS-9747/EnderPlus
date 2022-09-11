@@ -42,7 +42,7 @@ public class Database {
     }
 
     public EnderData findEnderDataByUUID(String uuid) throws SQLException {
-
+        
         PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM enderplusdata WHERE uuid = ?");
         statement.setString(1, uuid);
 

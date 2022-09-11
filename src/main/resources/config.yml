@@ -6,7 +6,7 @@
 
 Config:
   Update-Checker: true
-  Version: 2.3
+  Version: 2.4
 
 Database:
   Enable: false
@@ -17,4 +17,5 @@ Database:
 
 
 Enderchest:
+  Name: "Ender Chest"
   Convert-onJoin: true

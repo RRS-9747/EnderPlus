@@ -11,10 +11,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class InventoryClose implements Listener {
 
@@ -23,7 +25,7 @@ public class InventoryClose implements Listener {
 
         Player p = (Player) e.getPlayer();
 
-        if (e.getView().getTitle().equalsIgnoreCase("Ender Chest")) {
+        if (e.getView().getTitle().equalsIgnoreCase(EnderPlus.getConfiguration().getString("Enderchest.Name"))) {
 
             String version = Bukkit.getServer().getVersion();
             if (version.contains("1.8")) {
@@ -37,27 +39,34 @@ public class InventoryClose implements Listener {
             ArrayList<ItemStack> prunedItems = new ArrayList<>();
 
             Arrays.stream(e.getInventory().getContents())
-                    .filter(itemStack -> {
-                        return itemStack != null;
-                    })
+                    .filter(Objects::nonNull)
                     .forEach(prunedItems::add);
 
 
             EnderUtils.storeItems(prunedItems, p);
 
             if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
-                try {
-                    EnderData enderData = Listeners.getPlayerFromDatabase(p);
 
-                    if (prunedItems.size() == 0) {
-                        enderData.setdata("");
-                    } else enderData.setdata(EnderUtils.encodedItem);
+                new BukkitRunnable(){
 
-                    Listeners.database.updateEnderData(enderData);
-                } catch (SQLException exception) {
-                    exception.printStackTrace();
-                    Bukkit.getLogger().severe("Could not update Enderchest items after chest close!");
-                }
+                    @Override
+                    public void run() {
+                        try {
+                            EnderData enderData = Listeners.getPlayerFromDatabase(p);
+
+                            if (prunedItems.size() == 0) {
+                                enderData.setdata("");
+                            } else enderData.setdata(EnderUtils.encodedItem);
+
+                            Listeners.database.updateEnderData(enderData);
+                        } catch (SQLException exception) {
+                            exception.printStackTrace();
+                            Bukkit.getLogger().severe("Could not update EnderChest items after chest close!");
+                        }
+                    }
+                }.runTaskAsynchronously(EnderPlus.getInstance());
+
+
             }
         }
     }

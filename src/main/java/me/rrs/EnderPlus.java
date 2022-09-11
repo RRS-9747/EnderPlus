@@ -86,11 +86,11 @@ public final class EnderPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClose(), this);
         getServer().getPluginManager().registerEvents(new EnderChestOpen(), this);
 
-
         if (config.getBoolean("Database.Enable")) {
             try {
                 this.database = new Database();
                 this.database.initializeDatabase();
+                Bukkit.getLogger().info("Database connected!");
             } catch (SQLException e) {
                 e.printStackTrace();
                 Bukkit.getLogger().severe("Could not initialize database.");

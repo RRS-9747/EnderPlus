@@ -1,7 +1,9 @@
 package me.rrs.db;
 
+import me.rrs.EnderPlus;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
 
@@ -18,7 +20,19 @@ public class Listeners implements Listener {
 
         if (enderData == null) {
             enderData = new EnderData(player.getUniqueId().toString(), "");
-            database.createEnderData(enderData);
+            EnderData finalEnderData = enderData;
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    try {
+                        database.createEnderData(finalEnderData);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }.runTaskAsynchronously(EnderPlus.getInstance());
+
         }
 
         return enderData;
