@@ -21,19 +21,13 @@ public class Listeners implements Listener {
         if (enderData == null) {
             enderData = new EnderData(player.getUniqueId().toString(), "");
             EnderData finalEnderData = enderData;
-            new BukkitRunnable(){
 
-                @Override
-                public void run() {
                     try {
                         database.createEnderData(finalEnderData);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
                 }
-            }.runTaskAsynchronously(EnderPlus.getInstance());
-
-        }
 
         return enderData;
     }

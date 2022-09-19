@@ -51,7 +51,6 @@ public class EnderUtils {
                 data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, encodedData);
 
                 os.close();
-                io.close();
 
             }catch (IOException ex){
                 System.out.println(ex);
@@ -78,25 +77,24 @@ public class EnderUtils {
             }
         }else encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
 
-        if (!encodedItems.isEmpty()){
+        if (!encodedItems.isEmpty()) {
 
             byte[] rawData = Base64.getDecoder().decode(encodedItems);
 
-            try{
+            try {
                 ByteArrayInputStream io = new ByteArrayInputStream(rawData);
                 BukkitObjectInputStream in = new BukkitObjectInputStream(io);
 
                 int itemsCount = in.readInt();
 
-                for (int i = 0; i < itemsCount; i++){
+                for (int i = 0; i < itemsCount; i++) {
                     items.add((ItemStack) in.readObject());
                 }
 
                 in.close();
-                io.close();
 
 
-            }catch (IOException | ClassNotFoundException ex){
+            } catch (IOException | ClassNotFoundException ex) {
                 System.out.println(ex);
             }
 

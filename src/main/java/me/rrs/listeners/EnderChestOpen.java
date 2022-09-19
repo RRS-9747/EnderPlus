@@ -4,6 +4,7 @@ import me.rrs.EnderPlus;
 import me.rrs.utils.InvUtils;
 import me.rrs.utils.Lang;
 import org.bukkit.Material;
+import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EnderChestOpen implements Listener {
     Lang lang = new Lang();
+    public static EnderChest Echest;
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEnderChestOpen(PlayerInteractEvent event){
@@ -22,11 +24,13 @@ public class EnderChestOpen implements Listener {
                 if (!event.isCancelled()) {
                     if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                         event.setCancelled(true);
-
                         Player p = event.getPlayer();
 
+                        Echest = (EnderChest) event.getClickedBlock().getState();
+                        Echest.open();
+
                         if (p.hasPermission("enderplus.lvl.6")) {
-                           InvUtils.ownEnderInv(p, 54);
+                            InvUtils.ownEnderInv(p, 54);
 
                         } else if (p.hasPermission("enderplus.lvl.5")) {
                             InvUtils.ownEnderInv(p, 45);
@@ -44,11 +48,10 @@ public class EnderChestOpen implements Listener {
                             InvUtils.ownEnderInv(p, 9);
                         } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
 
-
-
                     }
                 }
             }
         }
+
     }
 }

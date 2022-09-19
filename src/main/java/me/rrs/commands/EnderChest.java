@@ -4,6 +4,7 @@ import me.rrs.EnderPlus;
 import me.rrs.utils.InvUtils;
 import me.rrs.utils.Lang;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,7 @@ public class EnderChest implements CommandExecutor {
             if (args.length > 0) {
                 if (p.hasPermission("enderplus.ec.other")) {
                     Player player = Bukkit.getPlayer(args[0]);
+
                     if (player != null) {
 
                         if (player.hasPermission("enderplus.lvl.6")) {

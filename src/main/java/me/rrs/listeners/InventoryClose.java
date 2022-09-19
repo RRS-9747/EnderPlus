@@ -5,6 +5,7 @@ import me.rrs.db.EnderData;
 import me.rrs.db.Listeners;
 import me.rrs.utils.EnderUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +27,7 @@ public class InventoryClose implements Listener {
 
         Player p = (Player) e.getPlayer();
 
-        if (e.getView().getTitle().equalsIgnoreCase(EnderPlus.getConfiguration().getString("EnderChest.Name"))) {
+        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', EnderPlus.getConfiguration().getString("EnderChest.Name")))) {
 
             ArrayList<ItemStack> prunedItems = new ArrayList<>();
 
@@ -34,10 +35,12 @@ public class InventoryClose implements Listener {
                     .filter(Objects::nonNull)
                     .forEach(prunedItems::add);
 
+
                 new BukkitRunnable(){
 
                     @Override
                     public void run() {
+                        EnderUtils.storeItems(prunedItems, p);
                         if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
                             try {
                                 EnderData enderData = Listeners.getPlayerFromDatabase(p);
@@ -52,11 +55,8 @@ public class InventoryClose implements Listener {
                                 Bukkit.getLogger().severe("Could not update EnderChest items after chest close!");
                             }
                         }
-                        EnderUtils.storeItems(prunedItems, p);
-
                     }
                 }.runTaskAsynchronously(EnderPlus.getInstance());
-
 
             String version = Bukkit.getServer().getVersion();
             if (version.contains("1.8")) {
@@ -66,6 +66,7 @@ public class InventoryClose implements Listener {
                 p.playSound(p.getLocation(), Sound.valueOf("BLOCK_ENDERCHEST_CLOSE"), 1, 1);
 
             } else p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1, 1);
+            EnderChestOpen.Echest.close();
         }
     }
 

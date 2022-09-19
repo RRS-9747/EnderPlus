@@ -2,6 +2,7 @@ package me.rrs.utils;
 
 import me.rrs.EnderPlus;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,7 +23,7 @@ public class InvUtils {
     }
 
     private static void inv(Player sender, Player player, int size) {
-        Inventory enderPlus = Bukkit.createInventory(sender, size, EnderPlus.getConfiguration().getString("EnderChest.Name"));
+        Inventory enderPlus = Bukkit.createInventory(sender, size, ChatColor.translateAlternateColorCodes('&', EnderPlus.getConfiguration().getString("EnderChest.Name")));
 
         CompletableFuture.runAsync(() -> {
             ArrayList<ItemStack> enderItems = EnderUtils.getItems(player);

@@ -2,11 +2,10 @@
 # For bug report or suggestion, join https://discord.gg/fV4P2yMSgR
 # Use luckperms for permission
 # Don't change Config.Version or plugin will break
-# If you choose this false, that means player will get normal Ender chest. but players can still get access to custom enderchest by /ec with right perm
 
 Config:
   Update-Checker: true
-  Version: 2.4
+  Version: 2.5
 
 Database:
   Enable: false
