@@ -2,6 +2,7 @@ package me.rrs.db;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import me.rrs.EnderPlus;
+import org.bukkit.Bukkit;
 
 import java.sql.*;
 
@@ -23,7 +24,7 @@ public class Database {
 
         this.connection = connection;
 
-        System.out.println("Connected to database.");
+        Bukkit.getLogger().info("Connected to database.");
 
         return connection;
 

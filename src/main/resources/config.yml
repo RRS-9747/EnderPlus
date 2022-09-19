@@ -15,7 +15,6 @@ Database:
   User: "root"
   Password: ""
 
-
-Enderchest:
-  Name: "Ender Chest"
+EnderChest:
+  Name: "EnderChest"
   Convert-onJoin: true

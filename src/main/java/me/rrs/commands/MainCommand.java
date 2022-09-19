@@ -34,7 +34,7 @@ public class MainCommand implements CommandExecutor {
                         try {
                             EnderPlus.getLang().reload();
                             EnderPlus.getConfiguration().reload();
-                            lang.msg("&a&l[EnderPlus]&r", "Reload", player);
+                            lang.msg("&a&l" + EnderPlus.getLang().getString("Prefix") +"&r", "Reload", player);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

@@ -33,6 +33,14 @@ public class PlayerJoin implements Listener {
 
         PersistentDataContainer data = p.getPersistentDataContainer();
 
+        String gitRepo = "EnderPlus";
+        String link = "https://www.spigotmc.org/resources/100897/";
+
+        if (EnderPlus.getStore().equalsIgnoreCase("1")) {
+            gitRepo = "EnderPlus-Premium";
+            link = "https://polymart.org/resource/2865/";
+        }
+
         if (!data.has(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING)){
             data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
         }
@@ -40,10 +48,10 @@ public class PlayerJoin implements Listener {
 
         if (event.getPlayer().hasPermission("enderplus.notify")) {
             if (EnderPlus.getConfiguration().getBoolean("Config.Update-Checker")) {
-                if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
+                if (updateAPI.hasGithubUpdate("RRS-9747", gitRepo)) {
                     event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You are using EnderPlus" + EnderPlus.getInstance().getDescription().getVersion()));
-                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "However version " + updateAPI.getGithubVersion("RRS-9747", "EnderPlus") + " is available."));
-                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You can download it from: https://bit.ly/enderplus"));
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "However version " + updateAPI.getGithubVersion("RRS-9747", gitRepo) + " is available."));
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "You can download it from: " + link));
                 }
 
             }
@@ -56,7 +64,7 @@ public class PlayerJoin implements Listener {
             }
         }
 
-        if (EnderPlus.getConfiguration().getBoolean("Enderchest.Convert-onJoin")) {
+        if (EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin")) {
             if (!event.getPlayer().getEnderChest().isEmpty()) {
                 ArrayList<ItemStack> prunedItems = new ArrayList<>();
 

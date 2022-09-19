@@ -24,13 +24,16 @@ import java.sql.SQLException;
 
 public final class EnderPlus extends JavaPlugin {
 
+    private static String store;
     private Database database;
     private static EnderPlus plugin;
     private static YamlDocument config;
     private static YamlDocument lang;
 
 
-
+    public static String getStore() {
+        return store;
+    }
     public static EnderPlus getInstance() {
         return plugin;
     }
@@ -51,7 +54,13 @@ public final class EnderPlus extends JavaPlugin {
             return;
         }
         Metrics metrics = new Metrics(this, 14719);
+        plugin = this;
+        store = "%%__POLYMART__%%";
 
+        if (store.equalsIgnoreCase("1")){
+            Bukkit.getLogger().info("Hello %%__USERNAME__%%!");
+
+        }
 
         try {
             config = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
@@ -70,11 +79,6 @@ public final class EnderPlus extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        plugin = this;
-
-
-
 
 
         getCommand("enderchest").setExecutor(new EnderChest());

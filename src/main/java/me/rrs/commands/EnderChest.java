@@ -1,5 +1,6 @@
 package me.rrs.commands;
 
+import me.rrs.EnderPlus;
 import me.rrs.utils.InvUtils;
 import me.rrs.utils.Lang;
 import org.bukkit.Bukkit;
@@ -39,9 +40,9 @@ public class EnderChest implements CommandExecutor {
                         } else if (player.hasPermission("enderplus.lvl.1")) {
                             InvUtils.otherEnderInv(p, player, 9);
 
-                        } else lang.msg("&c&l[EnderPlus]&r", "No-Echest", p);
+                        } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
 
-                    } else lang.msg("&c&l[EnderPlus]&r", "NoPlayer", p);
+                    } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "NoPlayer", p);
                 } else lang.noPerm(p);
 
             }else {
@@ -66,7 +67,7 @@ public class EnderChest implements CommandExecutor {
                     } else if (p.hasPermission("enderplus.lvl.1")) {
                         InvUtils.ownEnderInv(p, 9);
 
-                    } else lang.msg("&c&l[EnderPlus]&r", "No-Echest", p);
+                    } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
 
                 }
             }

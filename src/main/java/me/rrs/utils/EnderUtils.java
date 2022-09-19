@@ -51,13 +51,12 @@ public class EnderUtils {
                 data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, encodedData);
 
                 os.close();
+                io.close();
 
             }catch (IOException ex){
                 System.out.println(ex);
             }
-
         }
-
     }
 
     public static ArrayList<ItemStack> getItems(Player p){
@@ -94,13 +93,14 @@ public class EnderUtils {
                 }
 
                 in.close();
+                io.close();
+
 
             }catch (IOException | ClassNotFoundException ex){
                 System.out.println(ex);
             }
 
         }
-
         return items;
     }
 
