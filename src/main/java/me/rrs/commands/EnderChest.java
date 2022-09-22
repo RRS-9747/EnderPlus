@@ -4,7 +4,6 @@ import me.rrs.EnderPlus;
 import me.rrs.utils.InvUtils;
 import me.rrs.utils.Lang;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class EnderChest implements CommandExecutor {
     Lang lang = new Lang();
+
+    private final static int MAX_COLUMNS = 6;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -29,7 +30,7 @@ public class EnderChest implements CommandExecutor {
                     if (player != null) {
                         boolean opened = false;
 
-                        for (int i = 6; i > 0; i--) {
+                        for (int i = MAX_COLUMNS; i > 0; i--) {
                             if(p.hasPermission("enderplus.lvl." + i)) {
                                 invUtils.otherEnderInv(p, player, i * 9);
                                 opened = true;
@@ -49,7 +50,7 @@ public class EnderChest implements CommandExecutor {
                 if (p.hasPermission("enderplus.ec.own")) {
                     boolean opened = false;
 
-                    for (int i = 6; i > 0; i--) {
+                    for (int i = MAX_COLUMNS; i > 0; i--) {
                         if(p.hasPermission("enderplus.lvl." + i)) {
                             invUtils.ownEnderInv(p, i * 9);
                             opened = true;
