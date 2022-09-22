@@ -9,12 +9,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class EnderChest implements CommandExecutor {
     Lang lang = new Lang();
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if (sender instanceof Player) {
 
@@ -43,7 +44,7 @@ public class EnderChest implements CommandExecutor {
                     } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "NoPlayer", p);
                 } else lang.noPerm(p);
 
-            }else {
+            } else {
 
                 if (p.hasPermission("enderplus.ec.own")) {
                     boolean opened = false;
