@@ -22,18 +22,15 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
 public final class EnderPlus extends JavaPlugin {
 
-    private static String store;
     private Database database;
     private static EnderPlus plugin;
     private static YamlDocument config;
     private static YamlDocument lang;
 
 
-    public static String getStore() {
-        return store;
-    }
     public static EnderPlus getInstance() {
         return plugin;
     }
@@ -53,14 +50,8 @@ public final class EnderPlus extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        Metrics metrics = new Metrics(this, 14719);
+        final Metrics metrics = new Metrics(this, 14719);
         plugin = this;
-        store = "%%__POLYMART__%%";
-
-        if (store.equalsIgnoreCase("1")){
-            Bukkit.getLogger().info("Hello %%__USERNAME__%%!");
-
-        }
 
         try {
             config = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
@@ -94,7 +85,6 @@ public final class EnderPlus extends JavaPlugin {
             try {
                 this.database = new Database();
                 this.database.initializeDatabase();
-                Bukkit.getLogger().info("Database connected!");
             } catch (SQLException e) {
                 e.printStackTrace();
                 Bukkit.getLogger().severe("Could not initialize database.");
@@ -102,11 +92,15 @@ public final class EnderPlus extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new Listeners(database), this);
         }
 
+        if ("%%__POLYMART__%%".equalsIgnoreCase("1")){
+            Bukkit.getLogger().info("[EnderPlus] Hello %%__USERNAME__%%!");
+        }
     }
 
     @Override
     public void onDisable() {
         Bukkit.getLogger().warning("EnderPlus Disabled.");
     }
+
 
 }

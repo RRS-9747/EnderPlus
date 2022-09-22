@@ -21,7 +21,3 @@ commands:
     aliases:
       - ep
     description: Main command of EnderPlus
-
-libraries:
-  - dev.dejvokep:boosted-yaml:1.3
-  - org.json:json:20220320

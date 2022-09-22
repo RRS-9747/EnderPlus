@@ -11,8 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class EnderChest implements CommandExecutor {
-
-
     Lang lang = new Lang();
 
     @Override
@@ -21,6 +19,7 @@ public class EnderChest implements CommandExecutor {
         if (sender instanceof Player) {
 
             Player p = (Player) sender;
+            InvUtils invUtils = new InvUtils();
 
             if (args.length > 0) {
                 if (p.hasPermission("enderplus.ec.other")) {
@@ -29,18 +28,17 @@ public class EnderChest implements CommandExecutor {
                     if (player != null) {
 
                         if (player.hasPermission("enderplus.lvl.6")) {
-                            InvUtils.otherEnderInv(p, player,54);
+                            invUtils.otherEnderInv(p, player,54);
                         } else if (player.hasPermission("enderplus.lvl.5")) {
-                            InvUtils.otherEnderInv(p, player, 45);
+                            invUtils.otherEnderInv(p, player, 45);
                         } else if (player.hasPermission("enderplus.lvl.4")) {
-                            InvUtils.otherEnderInv(p, player, 36);
+                            invUtils.otherEnderInv(p, player, 36);
                         } else if (player.hasPermission("enderplus.lvl.3")) {
-                            InvUtils.otherEnderInv(p, player,27);
+                            invUtils.otherEnderInv(p, player,27);
                         } else if (player.hasPermission("enderplus.lvl.2")) {
-                            InvUtils.otherEnderInv(p, player, 18);
-
+                            invUtils.otherEnderInv(p, player, 18);
                         } else if (player.hasPermission("enderplus.lvl.1")) {
-                            InvUtils.otherEnderInv(p, player, 9);
+                            invUtils.otherEnderInv(p, player, 9);
 
                         } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
 
@@ -52,22 +50,17 @@ public class EnderChest implements CommandExecutor {
                 if (p.hasPermission("enderplus.ec.own")) {
 
                     if (p.hasPermission("enderplus.lvl.6")) {
-                        InvUtils.ownEnderInv(p, 54);
-
+                        invUtils.ownEnderInv(p, 54);
                     } else if (p.hasPermission("enderplus.lvl.5")) {
-                        InvUtils.ownEnderInv(p, 45);
-
+                        invUtils.ownEnderInv(p, 45);
                     } else if (p.hasPermission("enderplus.lvl.4")) {
-                        InvUtils.ownEnderInv(p, 36);
-
+                        invUtils.ownEnderInv(p, 36);
                     } else if (p.hasPermission("enderplus.lvl.3")) {
-                        InvUtils.ownEnderInv(p, 27);
-
+                        invUtils.ownEnderInv(p, 27);
                     } else if (p.hasPermission("enderplus.lvl.2")) {
-                        InvUtils.ownEnderInv(p, 18);
-
+                        invUtils.ownEnderInv(p, 18);
                     } else if (p.hasPermission("enderplus.lvl.1")) {
-                        InvUtils.ownEnderInv(p, 9);
+                        invUtils.ownEnderInv(p, 9);
 
                     } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
 

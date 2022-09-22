@@ -25,27 +25,26 @@ public class EnderChestOpen implements Listener {
                     if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                         event.setCancelled(true);
                         Player p = event.getPlayer();
-
-                        Echest = (EnderChest) event.getClickedBlock().getState();
-                        Echest.open();
+                        InvUtils invUtils = new InvUtils();
 
                         if (p.hasPermission("enderplus.lvl.6")) {
-                            InvUtils.ownEnderInv(p, 54);
+                            invUtils.ownEnderInv(p, 54, event.getClickedBlock());
 
                         } else if (p.hasPermission("enderplus.lvl.5")) {
-                            InvUtils.ownEnderInv(p, 45);
+                            invUtils.ownEnderInv(p, 45, event.getClickedBlock());
 
                         } else if (p.hasPermission("enderplus.lvl.4")) {
-                           InvUtils.ownEnderInv(p, 36);
+                            invUtils.ownEnderInv(p, 36, event.getClickedBlock());
 
                         } else if (p.hasPermission("enderplus.lvl.3")) {
-                           InvUtils.ownEnderInv(p, 27);
+                            invUtils.ownEnderInv(p, 27, event.getClickedBlock());
 
                         } else if (p.hasPermission("enderplus.lvl.2")) {
-                            InvUtils.ownEnderInv(p, 18);
+                            invUtils.ownEnderInv(p, 18, event.getClickedBlock());
 
                         } else if (p.hasPermission("enderplus.lvl.1")) {
-                            InvUtils.ownEnderInv(p, 9);
+                            invUtils.ownEnderInv(p, 9, event.getClickedBlock());
+
                         } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
 
                     }

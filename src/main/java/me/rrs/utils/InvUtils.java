@@ -4,6 +4,8 @@ import me.rrs.EnderPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -14,17 +16,27 @@ import java.util.concurrent.CompletableFuture;
 
 public class InvUtils {
 
-    public static void ownEnderInv(Player player, int size){
-        inv(player, player, size);
+    public static EnderChest Echest;
+
+    public void ownEnderInv(Player player, int size, Block block){
+        Echest = (EnderChest) block.getState();
+        Echest.open();
+        Inventory enderPlus = Bukkit.createInventory(player, size,  EnderPlus.getConfiguration().getString("EnderChest.Name"));
+
+        inv(player, player, enderPlus);
+    }
+    public void ownEnderInv(Player player, int size){
+        Inventory enderPlus = Bukkit.createInventory(player, size,  EnderPlus.getConfiguration().getString("EnderChest.Name"));
+        inv(player, player, enderPlus);
     }
 
-    public static void otherEnderInv(Player sender, Player player, int size){
-        inv(sender, player, size);
+    public void otherEnderInv(Player sender, Player player, int size){
+        Inventory enderPlus = Bukkit.createInventory(sender, size,player.getName() + "'s " + EnderPlus.getConfiguration().getString("EnderChest.Name"));
+
+        inv(sender, player, enderPlus);
     }
 
-    private static void inv(Player sender, Player player, int size) {
-        Inventory enderPlus = Bukkit.createInventory(sender, size, ChatColor.translateAlternateColorCodes('&', EnderPlus.getConfiguration().getString("EnderChest.Name")));
-
+    private void inv(Player sender, Player player, Inventory enderPlus) {
         CompletableFuture.runAsync(() -> {
             ArrayList<ItemStack> enderItems = EnderUtils.getItems(player);
             enderItems.forEach(enderPlus::addItem);
@@ -44,7 +56,6 @@ public class InvUtils {
                 }
             }.runTask(EnderPlus.getInstance());
         });
-
-
     }
+
 }
