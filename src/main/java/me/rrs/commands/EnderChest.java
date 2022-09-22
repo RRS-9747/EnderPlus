@@ -32,6 +32,7 @@ public class EnderChest implements CommandExecutor {
                             if(p.hasPermission("enderplus.lvl." + i)) {
                                 invUtils.otherEnderInv(p, player, i * 9);
                                 opened = true;
+                                break;
                             }
                         }
 
@@ -51,6 +52,7 @@ public class EnderChest implements CommandExecutor {
                         if(p.hasPermission("enderplus.lvl." + i)) {
                             invUtils.ownEnderInv(p, i * 9);
                             opened = true;
+                            break;
                         }
                     }
 
