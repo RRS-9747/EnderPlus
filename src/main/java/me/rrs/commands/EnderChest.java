@@ -26,21 +26,18 @@ public class EnderChest implements CommandExecutor {
                     Player player = Bukkit.getPlayer(args[0]);
 
                     if (player != null) {
+                        boolean opened = false;
 
-                        if (player.hasPermission("enderplus.lvl.6")) {
-                            invUtils.otherEnderInv(p, player,54);
-                        } else if (player.hasPermission("enderplus.lvl.5")) {
-                            invUtils.otherEnderInv(p, player, 45);
-                        } else if (player.hasPermission("enderplus.lvl.4")) {
-                            invUtils.otherEnderInv(p, player, 36);
-                        } else if (player.hasPermission("enderplus.lvl.3")) {
-                            invUtils.otherEnderInv(p, player,27);
-                        } else if (player.hasPermission("enderplus.lvl.2")) {
-                            invUtils.otherEnderInv(p, player, 18);
-                        } else if (player.hasPermission("enderplus.lvl.1")) {
-                            invUtils.otherEnderInv(p, player, 9);
+                        for (int i = 6; i > 0; i--) {
+                            if(p.hasPermission("enderplus.lvl." + i)) {
+                                invUtils.otherEnderInv(p, player, i * 9);
+                                opened = true;
+                            }
+                        }
 
-                        } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
+                        if(!opened) {
+                            lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
+                        }
 
                     } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "NoPlayer", p);
                 } else lang.noPerm(p);
@@ -48,21 +45,18 @@ public class EnderChest implements CommandExecutor {
             }else {
 
                 if (p.hasPermission("enderplus.ec.own")) {
+                    boolean opened = false;
 
-                    if (p.hasPermission("enderplus.lvl.6")) {
-                        invUtils.ownEnderInv(p, 54);
-                    } else if (p.hasPermission("enderplus.lvl.5")) {
-                        invUtils.ownEnderInv(p, 45);
-                    } else if (p.hasPermission("enderplus.lvl.4")) {
-                        invUtils.ownEnderInv(p, 36);
-                    } else if (p.hasPermission("enderplus.lvl.3")) {
-                        invUtils.ownEnderInv(p, 27);
-                    } else if (p.hasPermission("enderplus.lvl.2")) {
-                        invUtils.ownEnderInv(p, 18);
-                    } else if (p.hasPermission("enderplus.lvl.1")) {
-                        invUtils.ownEnderInv(p, 9);
+                    for (int i = 6; i > 0; i--) {
+                        if(p.hasPermission("enderplus.lvl." + i)) {
+                            invUtils.ownEnderInv(p, i * 9);
+                            opened = true;
+                        }
+                    }
 
-                    } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
+                    if(!opened) {
+                        lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") +"&r", "No-Echest", p);
+                    }
 
                 }
             }
