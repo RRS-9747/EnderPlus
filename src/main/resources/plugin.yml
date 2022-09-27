@@ -21,3 +21,22 @@ commands:
     aliases:
       - ep
     description: Main command of EnderPlus
+permissions:
+  enderplus.lvl.1:
+    description: Set EnderChest to 9 slot
+  enderplus.lvl.2:
+    description: Set EnderChest to 18 slot
+  enderplus.lvl.3:
+    description: Set EnderChest to 27 slot
+  enderplus.lvl.4:
+    description: Set EnderChest to 36 slot
+  enderplus.lvl.5:
+    description: Set EnderChest to 45 slot
+  enderplus.lvl.6:
+    description: Set EnderChest to 54 slot
+  enderplus.ec.own:
+    description: Open own Enderchest by command
+  enderplus.ec.other:
+    description: Open other players Enderchest by command
+  enderplus.notify:
+    description: Get notify about update/announcement

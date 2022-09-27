@@ -1,8 +1,8 @@
 package me.rrs.utils;
 
 import me.rrs.EnderPlus;
-import me.rrs.db.EnderData;
-import me.rrs.db.Listeners;
+import me.rrs.database.EnderData;
+import me.rrs.database.Listeners;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,22 +16,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
-public class EnderUtils {
+public enum EnderUtils {
+    ;
     public static String encodedItem;
 
-    public static void storeItems(List<ItemStack> items, Player p){
+    public static void storeItems(ArrayList<? extends ItemStack> items, Player p) {
 
-        PersistentDataContainer data = p.getPersistentDataContainer();
+        final PersistentDataContainer data = p.getPersistentDataContainer();
 
-        if (items.size() == 0){
+        if (items.isEmpty()) {
             data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
 
-        }else{
+        } else {
 
-            try{
-
+            try {
                 ByteArrayOutputStream io = new ByteArrayOutputStream();
                 BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
 
@@ -52,13 +51,13 @@ public class EnderUtils {
 
                 os.close();
 
-            }catch (IOException ex){
-                System.out.println(ex);
+            } catch (final IOException ex) {
+                ex.printStackTrace();
             }
         }
     }
 
-    public static ArrayList<ItemStack> getItems(Player p){
+    public static ArrayList<ItemStack> getItems(final Player p) {
 
         String encodedItems;
 
@@ -66,20 +65,21 @@ public class EnderUtils {
 
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        if (EnderPlus.getConfiguration().getBoolean("Database.Enable")){
+        if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
 
             try {
                 EnderData ed = Listeners.getPlayerFromDatabase(p);
-                encodedItems = ed.getdata();
+                encodedItems = ed.getData();
 
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
-        }else encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
+        } else
+            encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
 
         if (!encodedItems.isEmpty()) {
 
-            byte[] rawData = Base64.getDecoder().decode(encodedItems);
+            final byte[] rawData = Base64.getDecoder().decode(encodedItems);
 
             try {
                 ByteArrayInputStream io = new ByteArrayInputStream(rawData);
@@ -94,13 +94,14 @@ public class EnderUtils {
                 in.close();
 
 
-            } catch (IOException | ClassNotFoundException ex) {
-                System.out.println(ex);
+            } catch (final IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
 
         }
-        return items;
-    }
+            return items;
+        }
+
 
 
 }
