@@ -2,14 +2,14 @@ package me.rrs.utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rrs.EnderPlus;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Lang {
 
 
-    public static void msg(String prefix, String path, Player player) {
+    public void msg(String prefix, String path, Player player) {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             player.sendMessage(PlaceholderAPI.setPlaceholders(player, ChatColor.translateAlternateColorCodes('&', prefix + " " + EnderPlus.getLang().getString(path))));
         } else player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + EnderPlus.getLang().getString(path)));
@@ -20,7 +20,7 @@ public class Lang {
     }
 
     public void pcmd() {
-        Bukkit.getLogger().severe(ChatColor.translateAlternateColorCodes('&', EnderPlus.getLang().getString("Player-Command")));
+        Bukkit.getLogger().severe(EnderPlus.getLang().getString("Player-Command"));
 
     }
 }

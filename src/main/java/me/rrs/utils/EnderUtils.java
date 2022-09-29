@@ -17,30 +17,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 
-public enum EnderUtils {
-    ;
+public class EnderUtils {
+
     public static String encodedItem;
 
-    public static void storeItems(ArrayList<? extends ItemStack> items, Player p) {
+    public void storeItems(ArrayList<? extends ItemStack> items, Player p) {
 
         final PersistentDataContainer data = p.getPersistentDataContainer();
 
         if (items.isEmpty()) {
             data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
-
         } else {
-
             try {
-                ByteArrayOutputStream io = new ByteArrayOutputStream();
-                BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
-
+                final ByteArrayOutputStream io = new ByteArrayOutputStream();
+                final BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
                 os.writeInt(items.size());
-
                 for (ItemStack item : items) {
                     os.writeObject(item);
                 }
-
                 os.flush();
+                io.flush();
 
                 byte[] rawData = io.toByteArray();
 
@@ -50,6 +46,7 @@ public enum EnderUtils {
                 data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, encodedData);
 
                 os.close();
+                io.close();
 
             } catch (final IOException ex) {
                 ex.printStackTrace();
@@ -57,51 +54,38 @@ public enum EnderUtils {
         }
     }
 
-    public static ArrayList<ItemStack> getItems(final Player p) {
+    public ArrayList<ItemStack> getItems(final Player p) {
 
         String encodedItems;
 
-        PersistentDataContainer data = p.getPersistentDataContainer();
-
-        ArrayList<ItemStack> items = new ArrayList<>();
+        final PersistentDataContainer data = p.getPersistentDataContainer();
+        final ArrayList<ItemStack> items = new ArrayList<>();
 
         if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
-
             try {
                 EnderData ed = Listeners.getPlayerFromDatabase(p);
                 encodedItems = ed.getData();
-
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
-        } else
+        } else {
             encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
-
+        }
         if (!encodedItems.isEmpty()) {
-
             final byte[] rawData = Base64.getDecoder().decode(encodedItems);
-
             try {
-                ByteArrayInputStream io = new ByteArrayInputStream(rawData);
-                BukkitObjectInputStream in = new BukkitObjectInputStream(io);
-
+                final ByteArrayInputStream io = new ByteArrayInputStream(rawData);
+                final BukkitObjectInputStream in = new BukkitObjectInputStream(io);
                 int itemsCount = in.readInt();
-
                 for (int i = 0; i < itemsCount; i++) {
                     items.add((ItemStack) in.readObject());
                 }
-
                 in.close();
-
-
+                io.close();
             } catch (final IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-
         }
-            return items;
-        }
-
-
-
+        return items;
+    }
 }

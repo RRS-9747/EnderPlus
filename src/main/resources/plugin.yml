@@ -40,3 +40,5 @@ permissions:
     description: Open other players Enderchest by command
   enderplus.notify:
     description: Get notify about update/announcement
+  enderplus.reload:
+    description: Reload EnderPlus plugin

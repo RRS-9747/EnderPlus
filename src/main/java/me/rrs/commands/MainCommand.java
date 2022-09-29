@@ -2,8 +2,8 @@ package me.rrs.commands;
 
 import me.rrs.EnderPlus;
 import me.rrs.utils.Lang;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,17 +14,17 @@ import java.io.IOException;
 
 public class MainCommand implements CommandExecutor {
 
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
-        Lang lang = new Lang();
-
+        final Lang lang = new Lang();
         if (sender instanceof Player) {
             final Player player = (Player) sender;
 
             if (0 < args.length) {
                 if ("help".equalsIgnoreCase(args[0])) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3EnderPlus&r plugin by RRS."));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3EnderPlus&r by RRS."));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9>&r &l/enderplus help&r -> You already discovered it!"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9>&r &l/enderplus reload&r -> Reload plugin"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9>&r &l/enderchest&r -> Access your enderchest"));
@@ -35,19 +35,15 @@ public class MainCommand implements CommandExecutor {
                         try {
                             EnderPlus.getLang().reload();
                             EnderPlus.getConfiguration().reload();
-                            Lang.msg("&a&l" + EnderPlus.getLang().getString("Prefix") + "&r", "Reload", player);
+                            lang.msg("&a&l" + EnderPlus.getLang().getString("Prefix") + "&r", "Reload", player);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-
                     } else lang.noPerm(player);
                 }
-
-            } else
+            } else {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bEnderPlus " + EnderPlus.getInstance().getDescription().getVersion() + "&r by RRS"));
-
-
+            }
         } else {
             if (0 < args.length && "reload".equalsIgnoreCase(args[0])) {
                 try {
@@ -57,11 +53,11 @@ public class MainCommand implements CommandExecutor {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-            } else
-                Bukkit.getLogger().warning("&bEnderPlus " + EnderPlus.getInstance().getDescription().getVersion() + "&r by RRS");
-
+            } else {
+                Bukkit.getLogger().info("EnderPlus " + EnderPlus.getInstance().getDescription().getVersion() + " by RRS");
+            }
         }
+
 
         return true;
     }

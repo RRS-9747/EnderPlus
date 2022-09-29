@@ -13,28 +13,22 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EnderChestOpen implements Listener {
 
-    Player p;
+    protected final Lang lang = new Lang();
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onEnderChestOpen(final PlayerInteractEvent event) {
         if (null != event.getClickedBlock()) {
             if (Material.ENDER_CHEST == event.getClickedBlock().getType()) {
                 if (!event.isCancelled()) {
                     if (Action.RIGHT_CLICK_BLOCK == event.getAction()) {
                         event.setCancelled(true);
-                         p = event.getPlayer();
-                        InvUtils invUtils = new InvUtils();
-                        final int maxColumns = 6;
-                        boolean opened = false;
-                        for (int i = maxColumns; 0 < i; i--) {
+                        final Player p = event.getPlayer();
+                        final InvUtils invUtils = new InvUtils();
+                        for (int i = 6; 0 < i; i--) {
                             if (p.hasPermission("enderplus.lvl." + i)) {
                                 invUtils.ownEnderInv(p, i * 9, event.getClickedBlock());
-                                opened = true;
                                 break;
-                            }
-                        }
-                        if (!opened) {
-                            Lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
+                            } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                         }
                     }
                 }

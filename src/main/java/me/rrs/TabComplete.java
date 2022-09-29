@@ -12,6 +12,12 @@ import java.util.List;
 
 public class TabComplete implements TabCompleter {
 
+    EnderPlus instance;
+    public TabComplete(EnderPlus instance){
+        this.instance = instance;
+        instance.getCommand("enderplus").setTabCompleter(this);
+    }
+
     private final List<String> results = new ArrayList<>();
 
     @Override

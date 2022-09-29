@@ -24,11 +24,11 @@ import java.util.Objects;
 
 public class InventoryClose implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    EnderUtils utils = new EnderUtils();
+
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(final InventoryCloseEvent e) {
-
         final Player p = (Player) e.getPlayer();
-
         if (e.getView().getTitle().equalsIgnoreCase(EnderPlus.getConfiguration().getString("EnderChest.Name"))) {
             items(e.getInventory(), p);
             final String version = Bukkit.getServer().getVersion();
@@ -60,15 +60,13 @@ public class InventoryClose implements Listener {
 
             @Override
             public void run() {
-                EnderUtils.storeItems(prunedItems, player);
+                utils.storeItems(prunedItems, player);
                 if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
                     try {
                         final EnderData enderData = Listeners.getPlayerFromDatabase(player);
-
                         if (prunedItems.isEmpty()) {
                             enderData.setData("");
                         } else enderData.setData(EnderUtils.encodedItem);
-
                         Listeners.database.updateEnderData(enderData);
                     } catch (final SQLException exception) {
                         exception.printStackTrace();

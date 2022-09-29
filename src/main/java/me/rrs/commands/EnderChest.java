@@ -12,51 +12,45 @@ import org.jetbrains.annotations.NotNull;
 
 public class EnderChest implements CommandExecutor {
 
-    final Lang lang = new Lang();
+    protected final Lang lang = new Lang();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if (sender instanceof Player) {
-
             final Player p = (Player) sender;
+            final InvUtils invUtils = new InvUtils();
 
-            InvUtils invUtils = new InvUtils();
-
-            final int maxColumns = 6;
             if (0 < args.length) {
                 if (p.hasPermission("enderplus.ec.other")) {
-                    Player player = Bukkit.getPlayer(args[0]);
+                    final Player player = Bukkit.getPlayer(args[0]);
 
                     if (null != player) {
-                        boolean opened = false;
 
-                        for (int i = maxColumns; 0 < i; i--) {
+                        for (int i = 6; 0 < i; i--) {
                             if (player.hasPermission("enderplus.lvl." + i)) {
                                 invUtils.otherEnderInv(p, player, i * 9);
-                                opened = true;
                                 break;
-                            }
+                            }else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                         }
-                        if (!opened) Lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
-                    } else Lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "NoPlayer", p);
+                    } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "NoPlayer", p);
                 } else lang.noPerm(p);
 
             } else {
                 if (p.hasPermission("enderplus.ec.own")) {
-                    boolean opened = false;
-
-                    for (int i = maxColumns; 0 < i; i--) {
+                    for (int i = 6; 0 < i; i--) {
                         if (p.hasPermission("enderplus.lvl." + i)) {
                             invUtils.ownEnderInv(p, i * 9);
-                            opened = true;
                             break;
-                        }
+                        }else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                     }
-                    if (!opened) Lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                 }else lang.noPerm(p);
             }
-        } else this.lang.pcmd();
+        } else lang.pcmd();
+
+
+
+
         return true;
     }
 }

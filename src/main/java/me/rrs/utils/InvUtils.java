@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class InvUtils {
+    EnderUtils utils = new EnderUtils();
 
     public static EnderChest Echest;
 
@@ -40,9 +41,9 @@ public class InvUtils {
     }
 
 
-    private void inv(final Player sender, final Player player, final Inventory enderPlus) {
+    protected void inv(final Player sender, final Player player, final Inventory enderPlus) {
         CompletableFuture.runAsync(() -> {
-            final ArrayList<ItemStack> enderItems = EnderUtils.getItems(player);
+            final ArrayList<ItemStack> enderItems = utils.getItems(player);
             enderItems.forEach(enderPlus::addItem);
         }).thenRun(() -> new BukkitRunnable() {
             @Override

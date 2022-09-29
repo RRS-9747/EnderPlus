@@ -13,22 +13,14 @@ import java.util.concurrent.CompletableFuture;
 
 public class EnderPlusAPI {
 
-    public EnderPlus getInstance(){
-        return EnderPlus.getInstance();
-    }
     public YamlDocument getConfig(){
         return EnderPlus.getConfiguration();
     }
+
     public YamlDocument getLang(){
         return EnderPlus.getLang();
     }
-    public boolean getPremium(){
-        if ("%%__POLYMART__%%".equalsIgnoreCase("1")){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
     public int getRow(Player player){
         int i;
         final int maxColumns = 6;
@@ -39,10 +31,12 @@ public class EnderPlusAPI {
         }
         return i;
     }
+
     public Inventory getEnderChest(Player player, Player sender){
+        final EnderUtils utils = new EnderUtils();
         final Inventory enderPlus = Bukkit.createInventory(player, getRow(player), getConfig().getString("EnderChest.Name"));
         CompletableFuture.runAsync(() -> {
-            final ArrayList<ItemStack> enderItems = EnderUtils.getItems(player);
+            final ArrayList<ItemStack> enderItems = utils.getItems(player);
             enderItems.forEach(enderPlus::addItem);
         }).thenRun(() -> new BukkitRunnable() {
             @Override

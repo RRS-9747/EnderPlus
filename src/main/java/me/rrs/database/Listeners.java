@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import java.sql.SQLException;
 
 public class Listeners implements Listener {
+
     public static Database database;
 
     public Listeners(final Database database) {
@@ -19,14 +20,13 @@ public class Listeners implements Listener {
         if (null == playerData) {
             playerData = new EnderData(player.getUniqueId().toString(), "");
             final EnderData finalEnderData = playerData;
-
             try {
                 database.createEnderData(finalEnderData);
             } catch (final SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-
         return playerData;
     }
+
 }

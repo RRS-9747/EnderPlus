@@ -1,8 +1,8 @@
 package me.rrs.database;
 
 public class EnderData {
-    private final String playerUUID;
-    private String data;
+    protected final String playerUUID;
+    protected String data;
 
     public EnderData(final String playerUUID, final String data) {
         this.playerUUID = playerUUID;
