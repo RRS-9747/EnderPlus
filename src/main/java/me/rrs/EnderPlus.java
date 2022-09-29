@@ -53,17 +53,17 @@ public final class EnderPlus extends JavaPlugin {
         }
 
         Bukkit.getLogger().info("");
-        Bukkit.getLogger().info("███████╗███╗░░██╗██████╗░███████╗██████╗░██████╗░██╗░░░░░██╗░░░██╗░██████╗");
-        Bukkit.getLogger().info("██╔════╝████╗░██║██╔══██╗██╔════╝██╔══██╗██╔══██╗██║░░░░░██║░░░██║██╔════╝");
-        Bukkit.getLogger().info("█████╗░░██╔██╗██║██║░░██║█████╗░░██████╔╝██████╔╝██║░░░░░██║░░░██║╚█████╗░");
-        Bukkit.getLogger().info("██╔══╝░░██║╚████║██║░░██║██╔══╝░░██╔══██╗██╔═══╝░██║░░░░░██║░░░██║░╚═══██╗");
-        Bukkit.getLogger().info("███████╗██║░╚███║██████╔╝███████╗██║░░██║██║░░░░░███████╗╚██████╔╝██████╔╝");
-        Bukkit.getLogger().info("╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚══════╝░╚═════╝░╚═════╝░");
+        Bukkit.getLogger().info("███████╗███╗  ██╗██████╗ ███████╗██████╗ ██████╗ ██╗     ██╗   ██╗ ██████╗");
+        Bukkit.getLogger().info("██╔════╝████╗ ██║██╔══██╗██╔════╝██╔══██╗██╔══██╗██║     ██║   ██║██╔════╝");
+        Bukkit.getLogger().info("█████╗  ██╔██╗██║██║  ██║█████╗  ██████╔╝██████╔╝██║     ██║   ██║╚█████╗ ");
+        Bukkit.getLogger().info("██╔══╝  ██║╚████║██║  ██║██╔══╝  ██╔══██╗██╔═══╝ ██║     ██║   ██║ ╚═══██╗");
+        Bukkit.getLogger().info("███████╗██║ ╚███║██████╔╝███████╗██║  ██║██║     ███████╗╚██████╔╝██████╔╝");
+        Bukkit.getLogger().info("╚══════╝╚═╝  ╚══╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═════╝ ");
         Bukkit.getLogger().info("");
         Bukkit.getLogger().info("--------------------------------------------------------------------------");
         Bukkit.getLogger().info("[EnderPlus] EnderPlus " + this.getDescription().getVersion()+ " by RRS");
 
-        final Metrics metrics = new Metrics(this, 14719);
+        new Metrics(this, 14719);
         instance = this;
 
         try {
@@ -91,11 +91,10 @@ public final class EnderPlus extends JavaPlugin {
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
         databaseChecker();
-
+        updateChecker();
 
         Bukkit.getLogger().info("[EnderPlus] Enabled successfully!");
         Bukkit.getLogger().info("--------------------------------------------------------------------------");
-        updateChecker();
     }
 
     @Override

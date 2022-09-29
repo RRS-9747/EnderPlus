@@ -24,11 +24,16 @@ public class EnderChestOpen implements Listener {
                         event.setCancelled(true);
                         final Player p = event.getPlayer();
                         final InvUtils invUtils = new InvUtils();
+                        boolean opened = false;
                         for (int i = 6; 0 < i; i--) {
                             if (p.hasPermission("enderplus.lvl." + i)) {
                                 invUtils.ownEnderInv(p, i * 9, event.getClickedBlock());
+                                opened = true;
                                 break;
-                            } else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
+                            }
+                        }
+                        if (!opened){
+                            lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                         }
                     }
                 }

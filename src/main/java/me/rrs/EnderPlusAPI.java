@@ -34,7 +34,7 @@ public class EnderPlusAPI {
 
     public Inventory getEnderChest(Player player, Player sender){
         final EnderUtils utils = new EnderUtils();
-        final Inventory enderPlus = Bukkit.createInventory(player, getRow(player), getConfig().getString("EnderChest.Name"));
+        final Inventory enderPlus = Bukkit.createInventory(player, getRow(player), EnderPlus.getConfiguration().getString("EnderChest.Name"));
         CompletableFuture.runAsync(() -> {
             final ArrayList<ItemStack> enderItems = utils.getItems(player);
             enderItems.forEach(enderPlus::addItem);

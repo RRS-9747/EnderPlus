@@ -1,6 +1,7 @@
 package me.rrs.listeners;
 
 import me.rrs.EnderPlus;
+import me.rrs.EnderPlusAPI;
 import me.rrs.database.EnderData;
 import me.rrs.database.Listeners;
 import me.rrs.utils.EnderUtils;
@@ -43,7 +44,6 @@ public class PlayerJoin implements Listener {
                 event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[EnderPlus]&r Today is my Birthday :D Leave a review on spigot as a gift :3"));
             }
         }
-
 
 
         if (EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin")) {
