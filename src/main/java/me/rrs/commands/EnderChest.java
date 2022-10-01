@@ -45,7 +45,7 @@ public class EnderChest implements CommandExecutor {
                             invUtils.ownEnderInv(p, i * 9);
                             opened = true;
                             break;
-                        }else lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
+                        }
                     }
                     if (!opened) lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                 }else lang.noPerm(p);

@@ -45,6 +45,28 @@ public final class EnderPlus extends JavaPlugin {
     }
 
     @Override
+    public void onLoad(){
+        try {
+            config = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
+                    GeneralSettings.DEFAULT,
+                    LoaderSettings.builder().setAutoUpdate(true).build(),
+                    DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setAutoSave(true).setVersioning(new Pattern(Segment.range(1, Integer.MAX_VALUE),
+                            Segment.literal("."), Segment.range(0, 10)), "Config.Version").build());
+
+            lang = YamlDocument.create(new File(getDataFolder(), "lang.yml"), getResource("lang.yml"),
+                    GeneralSettings.DEFAULT,
+                    LoaderSettings.builder().setAutoUpdate(true).build(),
+                    DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setAutoSave(true).setVersioning(new Pattern(Segment.range(1, Integer.MAX_VALUE),
+                            Segment.literal("."), Segment.range(0, 10)), "Version").build());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        instance = this;
+    }
+
+    @Override
     public void onEnable() {
         if (!"EnderPlus".equals(this.getDescription().getName())) {
             Bukkit.getLogger().severe("Something wrong! Please download a fresh jar file from https://www.spigotmc.org/resources/100897/");
@@ -64,25 +86,6 @@ public final class EnderPlus extends JavaPlugin {
         Bukkit.getLogger().info("[EnderPlus] EnderPlus " + this.getDescription().getVersion()+ " by RRS");
 
         new Metrics(this, 14719);
-        instance = this;
-
-        try {
-            config = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
-                    GeneralSettings.DEFAULT,
-                    LoaderSettings.builder().setAutoUpdate(true).build(),
-                    DumperSettings.DEFAULT,
-                    UpdaterSettings.builder().setAutoSave(true).setVersioning(new Pattern(Segment.range(1, Integer.MAX_VALUE),
-                            Segment.literal("."), Segment.range(0, 10)), "Config.Version").build());
-
-            lang = YamlDocument.create(new File(getDataFolder(), "lang.yml"), getResource("lang.yml"),
-                    GeneralSettings.DEFAULT,
-                    LoaderSettings.builder().setAutoUpdate(true).build(),
-                    DumperSettings.DEFAULT,
-                    UpdaterSettings.builder().setAutoSave(true).setVersioning(new Pattern(Segment.range(1, Integer.MAX_VALUE),
-                            Segment.literal("."), Segment.range(0, 10)), "Version").build());
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
 
         getServer().getPluginManager().registerEvents(new EnderChestOpen(), this);
         getServer().getPluginManager().registerEvents(new InventoryClose(), this);
