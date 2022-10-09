@@ -1,10 +1,9 @@
 package me.rrs.listeners;
 
 import me.rrs.EnderPlus;
-import me.rrs.EnderPlusAPI;
 import me.rrs.database.EnderData;
 import me.rrs.database.Listeners;
-import me.rrs.utils.EnderUtils;
+import me.rrs.utils.Serializers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -48,13 +47,8 @@ public class PlayerJoin implements Listener {
 
         if (EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin")) {
             if (!event.getPlayer().getEnderChest().isEmpty()) {
-
                 final ArrayList<ItemStack> prunedItems = new ArrayList<>();
-
-                Arrays.stream(event.getPlayer().getEnderChest().getContents())
-                        .filter(Objects::nonNull)
-                        .forEach(prunedItems::add);
-
+                Arrays.stream(event.getPlayer().getEnderChest().getContents()).filter(Objects::nonNull).forEach(prunedItems::add);
                 new MyBukkitRunnable(prunedItems, p).runTaskAsynchronously(EnderPlus.getInstance());
                 event.getPlayer().getEnderChest().clear();
             }
@@ -64,30 +58,30 @@ public class PlayerJoin implements Listener {
 
 
     private static class MyBukkitRunnable extends BukkitRunnable {
-        private final ArrayList<? extends ItemStack> prunedItems;
+        private final ArrayList<ItemStack> prunedItems;
         private final Player p;
 
-        private MyBukkitRunnable(final ArrayList<? extends ItemStack> prunedItems, final Player p) {
+        private MyBukkitRunnable(ArrayList<ItemStack> prunedItems, final Player p) {
             this.prunedItems = prunedItems;
             this.p = p;
         }
-        EnderUtils utils = new EnderUtils();
+        Serializers utils = new Serializers();
 
         @Override
         public void run() {
-            utils.storeItems(this.prunedItems, this.p);
+            utils.storeItems(prunedItems, p);
             if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
                 try {
-                    final EnderData enderData = Listeners.getPlayerFromDatabase(this.p);
+                    final EnderData enderData = Listeners.getPlayerFromDatabase(p);
 
                     if (this.prunedItems.isEmpty()) {
                         enderData.setData("");
-                    } else enderData.setData(EnderUtils.encodedItem);
+                    } else enderData.setData(Serializers.encodedItem);
 
                     Listeners.database.updateEnderData(enderData);
                 } catch (final SQLException exception) {
                     exception.printStackTrace();
-                    Bukkit.getLogger().severe("Could not update EnderChest items after chest close!");
+                    Bukkit.getLogger().severe("[EnderPlus] Could not update EnderChest items from old Echest!");
                 }
             }
         }

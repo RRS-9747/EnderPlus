@@ -1,7 +1,7 @@
 package me.rrs;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import me.rrs.utils.EnderUtils;
+import me.rrs.utils.Serializers;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -33,7 +33,7 @@ public class EnderPlusAPI {
     }
 
     public Inventory getEnderChest(Player player, Player sender){
-        final EnderUtils utils = new EnderUtils();
+        final Serializers utils = new Serializers();
         final Inventory enderPlus = Bukkit.createInventory(player, getRow(player), EnderPlus.getConfiguration().getString("EnderChest.Name"));
         CompletableFuture.runAsync(() -> {
             final ArrayList<ItemStack> enderItems = utils.getItems(player);

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EnderChest implements CommandExecutor {
 
-    protected final Lang lang = new Lang();
+    private final Lang lang = new Lang();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -51,9 +51,6 @@ public class EnderChest implements CommandExecutor {
                 }else lang.noPerm(p);
             }
         } else lang.pcmd();
-
-
-
 
         return true;
     }
