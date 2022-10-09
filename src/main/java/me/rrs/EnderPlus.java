@@ -29,7 +29,6 @@ import java.sql.SQLException;
 public final class EnderPlus extends JavaPlugin {
 
     private static EnderPlus instance;
-
     private static YamlDocument lang;
     public static YamlDocument config;
 
@@ -83,16 +82,19 @@ public final class EnderPlus extends JavaPlugin {
         Bukkit.getLogger().info("╚══════╝╚═╝  ╚══╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═════╝ ");
         Bukkit.getLogger().info("");
         Bukkit.getLogger().info("--------------------------------------------------------------------------");
-        Bukkit.getLogger().info("[EnderPlus] EnderPlus " + this.getDescription().getVersion()+ " by RRS");
+        Bukkit.getLogger().info("[EnderPlus] EnderPlus " + getDescription().getVersion()+ " by RRS");
 
         new Metrics(this, 14719);
 
         getServer().getPluginManager().registerEvents(new EnderChestOpen(), this);
         getServer().getPluginManager().registerEvents(new InventoryClose(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
+            (new EnderPlusExpansion()).register();
+        }
+
         databaseChecker();
         updateChecker();
 
