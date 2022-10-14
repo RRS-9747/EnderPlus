@@ -1,4 +1,4 @@
-package me.rrs;
+package me.rrs.utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class EnderPlusExpansion extends PlaceholderExpansion {
-    public EnderPlusExpansion() {
-    }
 
     public @NotNull String getIdentifier() {
         return "enderplus";
@@ -20,6 +18,7 @@ public class EnderPlusExpansion extends PlaceholderExpansion {
     public @NotNull String getVersion() {
         return "1.0";
     }
+
 
     public boolean persist() {
         return true;

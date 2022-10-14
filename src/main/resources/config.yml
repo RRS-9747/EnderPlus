@@ -15,5 +15,10 @@ Database:
   Password: ""
 
 EnderChest:
-  Name: "EnderChest"
-  Convert-onJoin: true
+  Name:
+    row-1: "EnderChest-1"
+    row-2: "EnderChest-2"
+    row-3: "EnderChest-3"
+    row-4: "EnderChest-4"
+    row-5: "EnderChest-5"
+    row-6: "EnderChest-6"

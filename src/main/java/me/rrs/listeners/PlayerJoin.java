@@ -1,22 +1,16 @@
 package me.rrs.listeners;
 
 import me.rrs.EnderPlus;
-import me.rrs.database.EnderData;
-import me.rrs.database.Listeners;
 import me.rrs.utils.Serializers;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +20,8 @@ public class PlayerJoin implements Listener {
 
     protected final Date date = new Date();
     protected final DateFormat dateFormat = new SimpleDateFormat("dd/MM");
-    protected final String currentDate = this.dateFormat.format(this.date);
+    protected final String currentDate = dateFormat.format(date);
+    final Serializers utils = new Serializers();
 
 
     @EventHandler
@@ -38,52 +33,37 @@ public class PlayerJoin implements Listener {
             data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
         }
 
-        if ("23/3".equals(this.currentDate)) {
-            if (event.getPlayer().hasPermission("enderplus.notify")) {
-                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[EnderPlus]&r Today is my Birthday :D Leave a review on spigot as a gift :3"));
-            }
+        if ("23/3".equals(currentDate) && p.hasPermission("enderplus.notify")) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[EnderPlus]&r Today is my Birthday :D Leave a review on spigot as a gift :3"));
         }
 
 
+/*
         if (EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin")) {
-            if (!event.getPlayer().getEnderChest().isEmpty()) {
-                final ArrayList<ItemStack> prunedItems = new ArrayList<>();
-                Arrays.stream(event.getPlayer().getEnderChest().getContents()).filter(Objects::nonNull).forEach(prunedItems::add);
-                new MyBukkitRunnable(prunedItems, p).runTaskAsynchronously(EnderPlus.getInstance());
-                event.getPlayer().getEnderChest().clear();
+            if (!p.getEnderChest().isEmpty()) {
+                final Inventory echest = p.getEnderChest();
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        utils.storeItems(echest, p);
+                        if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
+                            try {
+                                final EnderData enderData = Listeners.getPlayerFromDatabase(p);
+                                enderData.setData(Serializers.encodedItem);
+                                Listeners.database.updateEnderData(enderData);
+                            } catch (final SQLException exception) {
+                                exception.printStackTrace();
+                                Bukkit.getLogger().severe("[EnderPlus] Could not update EnderChest items after chest close!");
+                            }
+                        }
+                    }
+                }.runTaskAsynchronously(EnderPlus.getInstance());
+                echest.clear();
             }
         }
-    }
 
 
+ */
 
-    private static class MyBukkitRunnable extends BukkitRunnable {
-        private final ArrayList<ItemStack> prunedItems;
-        private final Player p;
-
-        private MyBukkitRunnable(ArrayList<ItemStack> prunedItems, final Player p) {
-            this.prunedItems = prunedItems;
-            this.p = p;
-        }
-        Serializers utils = new Serializers();
-
-        @Override
-        public void run() {
-            utils.storeItems(prunedItems, p);
-            if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
-                try {
-                    final EnderData enderData = Listeners.getPlayerFromDatabase(p);
-
-                    if (this.prunedItems.isEmpty()) {
-                        enderData.setData("");
-                    } else enderData.setData(Serializers.encodedItem);
-
-                    Listeners.database.updateEnderData(enderData);
-                } catch (final SQLException exception) {
-                    exception.printStackTrace();
-                    Bukkit.getLogger().severe("[EnderPlus] Could not update EnderChest items from old Echest!");
-                }
-            }
-        }
     }
 }

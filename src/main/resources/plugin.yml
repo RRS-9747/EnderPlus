@@ -38,6 +38,7 @@ permissions:
     description: Open own Enderchest by command
   enderplus.ec.other:
     description: Open other players Enderchest by command
+    default: false
   enderplus.notify:
     description: Get notify about update/announcement
   enderplus.reload:

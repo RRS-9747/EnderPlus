@@ -22,13 +22,13 @@ public class EnderChest implements CommandExecutor {
             final InvUtils invUtils = new InvUtils();
 
             if (0 < args.length) {
-                if (p.hasPermission("enderplus.ec.other")) {
-                    final Player player = Bukkit.getPlayer(args[0]);
-                    if (null != player) {
+                if (p.hasPermission("enderplus.ec.other.edit")) {
+                    final Player holder = Bukkit.getPlayer(args[0]);
+                    if (null != holder) {
                         boolean opened = false;
                         for (int i = 6; 0 < i; i--) {
-                            if (player.hasPermission("enderplus.lvl." + i)) {
-                                invUtils.otherEnderInv(p, player, i * 9);
+                            if (holder.hasPermission("enderplus.lvl." + i)) {
+                                invUtils.otherEnderInv(p, holder, i * 9, "EnderChest.Name.row-" + i);
                                 opened = true;
                                 break;
                             }
@@ -42,7 +42,7 @@ public class EnderChest implements CommandExecutor {
                     boolean opened = false;
                     for (int i = 6; 0 < i; i--) {
                         if (p.hasPermission("enderplus.lvl." + i)) {
-                            invUtils.ownEnderInv(p, i * 9);
+                            invUtils.ownEnderInv(p, i * 9, "EnderChest.Name.row-" + i);
                             opened = true;
                             break;
                         }

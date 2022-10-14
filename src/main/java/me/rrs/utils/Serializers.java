@@ -5,6 +5,7 @@ import me.rrs.database.EnderData;
 import me.rrs.database.Listeners;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -16,24 +17,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class Serializers {
 
-    public static String encodedItem;
+    public static String getEncodedItem() {
+        return encodedItem;
+    }
 
-    public void storeItems(ArrayList<ItemStack> items, Player p) {
+    private static String encodedItem;
+
+
+
+    public void storeItems(Inventory inv, Player p) {
 
         final PersistentDataContainer data = p.getPersistentDataContainer();
-        if (items.isEmpty()) {
-            data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
-        } else {
             try {
                 final ByteArrayOutputStream io = new ByteArrayOutputStream();
                 final BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
-                os.writeInt(items.size());
-                for (ItemStack item : items) {
-                    os.writeObject(item);
-                }
+                os.writeObject(inv.getContents());
                 os.flush();
                 io.flush();
 
@@ -51,16 +53,51 @@ public class Serializers {
                 ex.printStackTrace();
             }
         }
+
+
+    public ItemStack[] getItems(final Player p) {
+
+        String encodedData;
+
+        final PersistentDataContainer data = p.getPersistentDataContainer();
+        ItemStack[] itemStacks = new ItemStack[0];
+
+        if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
+            try {
+                EnderData ed = Listeners.getPlayerFromDatabase(p);
+                encodedData = ed.getData();
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            encodedData = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
+        }
+        if (encodedData!= null && !encodedData.isEmpty()) {
+            final byte[] rawData = Base64.getDecoder().decode(encodedData);
+
+            try {
+                final ByteArrayInputStream io = new ByteArrayInputStream(rawData);
+                final BukkitObjectInputStream in = new BukkitObjectInputStream(io);
+                itemStacks = (ItemStack[]) in.readObject();
+                in.close();
+                io.close();
+            } catch (final IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return itemStacks;
     }
 
-    public ArrayList<ItemStack> getItems(final Player p) {
+
+    //TODO -> Remove soon
+    public List<ItemStack> getItem(final Player p) {
 
         String encodedItems;
 
         final PersistentDataContainer data = p.getPersistentDataContainer();
         final ArrayList<ItemStack> items = new ArrayList<>();
 
-        if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
+        if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
             try {
                 EnderData ed = Listeners.getPlayerFromDatabase(p);
                 encodedItems = ed.getData();
@@ -81,10 +118,11 @@ public class Serializers {
                 }
                 in.close();
                 io.close();
-            } catch (final IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
+            } catch (final IOException | ClassNotFoundException ignored) {
+
             }
         }
         return items;
     }
+
 }

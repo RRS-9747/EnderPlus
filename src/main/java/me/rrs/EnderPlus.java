@@ -11,11 +11,14 @@ import me.rrs.commands.EnderChest;
 import me.rrs.commands.MainCommand;
 import me.rrs.database.Database;
 import me.rrs.database.Listeners;
-import me.rrs.listeners.EnderChestOpen;
-import me.rrs.listeners.InventoryClose;
+import me.rrs.listeners.EchestViewer;
+import me.rrs.listeners.EnderPlusOpen;
+import me.rrs.listeners.EnderPlusSave;
 import me.rrs.listeners.PlayerJoin;
-import me.rrs.utils.Metrics;
+import me.rrs.utils.EnderPlusExpansion;
+import me.rrs.utils.TabComplete;
 import me.rrs.utils.UpdateAPI;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,7 +33,7 @@ public final class EnderPlus extends JavaPlugin {
 
     private static EnderPlus instance;
     private static YamlDocument lang;
-    public static YamlDocument config;
+    private static YamlDocument config;
 
 
     public static EnderPlus getInstance(){
@@ -86,11 +89,13 @@ public final class EnderPlus extends JavaPlugin {
 
         new Metrics(this, 14719);
 
-        getServer().getPluginManager().registerEvents(new EnderChestOpen(), this);
-        getServer().getPluginManager().registerEvents(new InventoryClose(), this);
+        getServer().getPluginManager().registerEvents(new EnderPlusOpen(), this);
+        getServer().getPluginManager().registerEvents(new EnderPlusSave(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getServer().getPluginManager().registerEvents(new EchestViewer(), this);
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
+        getCommand("enderplus").setTabCompleter(new TabComplete());
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
             (new EnderPlusExpansion()).register();
         }
@@ -131,7 +136,7 @@ public final class EnderPlus extends JavaPlugin {
     }
 
     public void databaseChecker(){
-        if (config.getBoolean("Database.Enable")) {
+        if (Boolean.TRUE.equals(config.getBoolean("Database.Enable"))) {
             Bukkit.getLogger().info("[EnderPlus] Enabling Database");
             Database database;
             try {

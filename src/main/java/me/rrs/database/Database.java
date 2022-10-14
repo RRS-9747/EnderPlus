@@ -11,7 +11,7 @@ public class Database{
 
     protected Connection connection;
 
-    protected final YamlDocument config = EnderPlus.getConfiguration();
+    private final YamlDocument config = EnderPlus.getConfiguration();
 
     public Connection getConnection() throws SQLException {
         if (null != this.connection) {
@@ -20,8 +20,7 @@ public class Database{
         final String url = "jdbc:mysql://" + config.getString("Database.Url") + "/" + config.getString("Database.Name");
         final String user = EnderPlus.getConfiguration().getString("Database.User");
         final String password = EnderPlus.getConfiguration().getString("Database.Password");
-        final Connection connection = DriverManager.getConnection(url, user, password);
-        this.connection = connection;
+        this.connection = DriverManager.getConnection(url, user, password);
         Bukkit.getLogger().info("[EnderPlus] Connected to database.");
         return connection;
 
