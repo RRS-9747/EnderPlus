@@ -6,6 +6,9 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/rrs-9747/EnderPlus/badge)](https://www.codefactor.io/repository/github/rrs-9747/EnderPlus)
 [![License](https://img.shields.io/github/license/RRS-9747/EnderPlus.svg)](https://github.com/RRS-9747/EnderPlus/blob/master/LICENSE)<br>
 
+### Sonar Status
+
+[![](https://sonarcloud.io/api/project_badges/measure?project=RRS-9747_EnderPlus&metric=alert_status)](https://sonarcloud.io/dashboard?id=RRS-9747_EnderPlus)[![](https://sonarcloud.io/api/project_badges/measure?project=RRS-9747_EnderPlus&metric=ncloc)](https://sonarcloud.io/dashboard?id=RRS-9747_EnderPlus)[![](https://sonarcloud.io/api/project_badges/measure?project=RRS-9747_EnderPlus&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=RRS-9747_EnderPlus)[![](https://sonarcloud.io/api/project_badges/measure?project=RRS-9747_EnderPlus&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=RRS-9747_EnderPlus)
 
 Better EnderChest for your minecraft server
 
