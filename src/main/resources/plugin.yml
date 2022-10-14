@@ -1,6 +1,6 @@
 name: EnderPlus
 version: ${project.version}
-main: me.rrs.EnderPlus
+main: me.rrs.enderplus.EnderPlus
 api-version: 1.13
 authors: [ RRS ]
 softdepend:

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.rrs</groupId>
-    <artifactId>EnderPlus</artifactId>
+    <artifactId>enderplus</artifactId>
     <version>3.0</version>
     <packaging>jar</packaging>
 
@@ -81,6 +81,15 @@
             </resource>
         </resources>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/RRS-9747/EnderPlus</url>
+        </repository>
+    </distributionManagement>
+
 
 
     <repositories>
