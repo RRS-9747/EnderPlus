@@ -5,37 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.rrs</groupId>
-    <artifactId>enderplus</artifactId>
-    <version>3.0</version>
+    <artifactId>HeadDrop</artifactId>
+    <version>4.8</version>
+
     <packaging>jar</packaging>
 
-    <name>EnderPlus</name>
+    <name>HeadDrop</name>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.organization>rrs-9747</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ../app-it/target/site/jacoco-aggregate/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <build>
         <plugins>
@@ -72,8 +54,31 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                            <shadedPattern>me.rrs.lib.nbtapi</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+            </plugin>
         </plugins>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -82,20 +87,27 @@
         </resources>
     </build>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/RRS-9747/EnderPlus</url>
-        </repository>
-    </distributionManagement>
-
-
-
     <repositories>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>jeff-media-public</id>
+            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
         </repository>
         <repository>
             <id>spigotmc-repo</id>
@@ -105,19 +117,41 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>nexus</id>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
     </repositories>
 
-
     <dependencies>
-        <dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.8</version>
-        </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.10.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Sal4iDev</groupId>
+            <artifactId>sDiscordWebhookJava</artifactId>
+            <version>1.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.dejvokep</groupId>
+            <artifactId>boosted-yaml</artifactId>
+            <version>1.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -133,10 +167,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>dev.dejvokep</groupId>
-            <artifactId>boosted-yaml</artifactId>
-            <version>1.3</version>
-            <scope>compile</scope>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>1.5.25</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -146,4 +180,3 @@
         </dependency>
     </dependencies>
 </project>
-
