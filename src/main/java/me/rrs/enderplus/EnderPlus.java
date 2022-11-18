@@ -11,11 +11,8 @@ import me.rrs.enderplus.commands.EnderChest;
 import me.rrs.enderplus.commands.MainCommand;
 import me.rrs.enderplus.database.Database;
 import me.rrs.enderplus.database.Listeners;
+import me.rrs.enderplus.listeners.*;
 import me.rrs.enderplus.utils.UpdateAPI;
-import me.rrs.enderplus.listeners.EchestViewer;
-import me.rrs.enderplus.listeners.EnderPlusOpen;
-import me.rrs.enderplus.listeners.EnderPlusSave;
-import me.rrs.enderplus.listeners.PlayerJoin;
 import me.rrs.enderplus.utils.EnderPlusExpansion;
 import me.rrs.enderplus.utils.TabComplete;
 import org.bstats.bukkit.Metrics;
@@ -93,6 +90,7 @@ public final class EnderPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnderPlusSave(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         getServer().getPluginManager().registerEvents(new EchestViewer(), this);
+        getServer().getPluginManager().registerEvents(new Blacklist(), this);
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
         getCommand("enderplus").setTabCompleter(new TabComplete());
@@ -131,7 +129,6 @@ public final class EnderPlus extends JavaPlugin {
                             }
                         }
                     }
-
             }
         }.runTaskTimerAsynchronously(this, 0L, 20L * 60 * config.getInt("Config.Update-Checker-Interval"));
     }

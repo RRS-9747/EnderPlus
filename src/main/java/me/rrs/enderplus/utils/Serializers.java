@@ -15,9 +15,7 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
 public class Serializers {
 
@@ -86,43 +84,6 @@ public class Serializers {
             }
         }
         return itemStacks;
-    }
-
-
-    //TODO -> Remove soon
-    public List<ItemStack> getItem(final Player p) {
-
-        String encodedItems;
-
-        final PersistentDataContainer data = p.getPersistentDataContainer();
-        final ArrayList<ItemStack> items = new ArrayList<>();
-
-        if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
-            try {
-                EnderData ed = Listeners.getPlayerFromDatabase(p);
-                encodedItems = ed.getData();
-            } catch (final Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
-        }
-        if (!encodedItems.isEmpty()) {
-            final byte[] rawData = Base64.getDecoder().decode(encodedItems);
-            try {
-                final ByteArrayInputStream io = new ByteArrayInputStream(rawData);
-                final BukkitObjectInputStream in = new BukkitObjectInputStream(io);
-                int itemsCount = in.readInt();
-                for (int i = 0; i < itemsCount; i++) {
-                    items.add((ItemStack) in.readObject());
-                }
-                in.close();
-                io.close();
-            } catch (final IOException | ClassNotFoundException ignored) {
-
-            }
-        }
-        return items;
     }
 
 }

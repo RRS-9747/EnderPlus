@@ -23,3 +23,7 @@ EnderChest:
     row-5: "EnderChest-5"
     row-6: "EnderChest-6"
   Convert-onJoin: true
+  Blacklist:
+    -
+    -
+    -
