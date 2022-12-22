@@ -15,29 +15,29 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EnderPlusOpen implements Listener {
 
-    private final Lang lang = new Lang();
+    protected final Lang lang = new Lang();
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onEnderChestOpen(final PlayerInteractEvent event) {
-        if (event.getClickedBlock() != null) {
-            Block block = event.getClickedBlock();
-            if (Material.ENDER_CHEST == block.getType() && Action.RIGHT_CLICK_BLOCK == event.getAction() && !event.isCancelled()) {
-                final Player p = event.getPlayer();
-                final InvUtils invUtils = new InvUtils();
-                boolean opened = false;
-                event.setCancelled(true);
-
-                for (int i = 6; 0 < i; i--) {
-                    if (p.hasPermission("enderplus.lvl." + i)) {
-                        invUtils.ownEnderInv(p, i * 9, EnderPlus.getConfiguration().getString("EnderChest.Name.row-" + i));
-                        InvUtils.setEchest((EnderChest) block.getState());
-                        InvUtils.getEchest().open();
-                        opened = true;
-                        break;
+        if (null != event.getClickedBlock()) {
+            if (Material.ENDER_CHEST == event.getClickedBlock().getType()) {
+                if (!event.isCancelled()) {
+                    if (Action.RIGHT_CLICK_BLOCK == event.getAction()) {
+                        event.setCancelled(true);
+                        final Player p = event.getPlayer();
+                        final InvUtils invUtils = new InvUtils();
+                        boolean opened = false;
+                        for (int i = 6; 0 < i; i--) {
+                            if (p.hasPermission("enderplus.lvl." + i)) {
+                                invUtils.ownEnderInv(p, i * 9, event.getClickedBlock(), EnderPlus.getConfiguration().getString("EnderChest.Name.row-" + i));
+                                opened = true;
+                                break;
+                            }
+                        }
+                        if (!opened){
+                            lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
+                        }
                     }
-                }
-                if (!opened) {
-                    lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix") + "&r", "No-Echest", p);
                 }
             }
         }

@@ -12,7 +12,7 @@ public class Listeners implements Listener {
         return database;
     }
 
-    private static Database database;
+    public static Database database;
 
     public Listeners(final Database database) {
         Listeners.database = database;

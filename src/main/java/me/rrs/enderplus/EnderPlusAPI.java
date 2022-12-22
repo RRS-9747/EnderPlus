@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class EnderPlusAPI {
@@ -22,17 +23,14 @@ public class EnderPlusAPI {
         return i;
     }
 
-    public Inventory getEnderChest(Player holder, Player sender, Plugin instance){
+    public Inventory getEnderChest(Player holder, Player sender, String name, Plugin instance){
         final Serializers utils = new Serializers();
-        final Inventory enderPlus = Bukkit.createInventory(holder, getRow(holder), EnderPlus.getConfiguration().getString("EnderChest.Name"));
+        final Inventory enderPlus = Bukkit.createInventory(holder, getRow(holder), name);
         CompletableFuture.runAsync(() -> {
-            ItemStack[] items = utils.getItems(holder);
-            if (items.length > getRow(holder)) {
-                for (int i = 0; i < getRow(holder); i++) {
-                    enderPlus.setItem(i, items[i]);
-                }
-            }else enderPlus.setContents(utils.getItems(holder));
-
+            ArrayList<ItemStack> items = utils.getItems(holder);
+            if (items.size() > getRow(holder)) {
+                enderPlus.forEach(enderPlus::addItem);
+            }
         }).thenRun(() -> new BukkitRunnable() {
             @Override
             public void run() {

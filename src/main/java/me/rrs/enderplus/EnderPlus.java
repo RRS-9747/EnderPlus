@@ -43,6 +43,7 @@ public final class EnderPlus extends JavaPlugin {
         return lang;
     }
 
+
     @Override
     public void onLoad(){
         try {
@@ -117,18 +118,18 @@ public final class EnderPlus extends JavaPlugin {
         new BukkitRunnable(){
             @Override
             public void run() {
-                    if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
-                        String version = updateAPI.getGithubVersion("RRS-9747", "EnderPlus");
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            if (p.hasPermission("enderplus.notify")) {
-                                p.sendMessage("--------------------------------");
-                                p.sendMessage("You are using EnderPlus " + EnderPlus.getInstance().getDescription().getVersion());
-                                p.sendMessage("However version " + version + " is available.");
-                                p.sendMessage("You can download it from: " + "https://www.spigotmc.org/resources/100897/");
-                                p.sendMessage("--------------------------------");
-                            }
+                if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
+                    String version = updateAPI.getGithubVersion("RRS-9747", "EnderPlus");
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.hasPermission("enderplus.notify")) {
+                            p.sendMessage("--------------------------------");
+                            p.sendMessage("You are using EnderPlus " + EnderPlus.getInstance().getDescription().getVersion());
+                            p.sendMessage("However version " + version + " is available.");
+                            p.sendMessage("You can download it from: " + "https://www.spigotmc.org/resources/100897/");
+                            p.sendMessage("--------------------------------");
                         }
                     }
+                }
             }
         }.runTaskTimerAsynchronously(this, 0L, 20L * 60 * config.getInt("Config.Update-Checker-Interval"));
     }

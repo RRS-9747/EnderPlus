@@ -6,7 +6,7 @@
 
     <groupId>me.rrs</groupId>
     <artifactId>enderplus</artifactId>
-    <version>3.2</version>
+    <version>3.3</version>
     <packaging>jar</packaging>
 
     <name>EnderPlus</name>
@@ -15,22 +15,6 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <build>
         <plugins>
@@ -92,8 +76,6 @@
         </repository>
     </distributionManagement>
 
-
-
     <repositories>
         <repository>
             <id>jitpack.io</id>
@@ -123,12 +105,7 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.8</version>
+            <version>2.11.1</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -157,7 +134,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.2-R0.1-SNAPSHOT</version>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

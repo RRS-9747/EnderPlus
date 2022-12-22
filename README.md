@@ -17,9 +17,9 @@ Better EnderChest for your minecraft server
 
 * Per player custom EnderChest slot size
 * Enderchest slot with permission
-* Save data in data.yml
+* Save data with world & database
 * Show own/others Echest with command
-* 1.12 - 1.19.2 support
+* 1.12 - 1.19.3 support
 
 
 **How to install**<br>

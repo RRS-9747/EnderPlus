@@ -3,52 +3,58 @@ package me.rrs.enderplus.utils;
 import me.rrs.enderplus.EnderPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
-public class InvUtils{
+public class InvUtils {
+
+    private static EnderChest Echest;
+    private static Inventory enderPlus;
+    Serializers utils = new Serializers();
+
 
     public static EnderChest getEchest() {
         return Echest;
     }
 
-    public static void setEchest(EnderChest echest) {
-        Echest = echest;
-    }
     public static Inventory getEnderPlus() {
         return enderPlus;
     }
 
-    private static EnderChest Echest;
-    private static Inventory enderPlus;
-    final Serializers utils = new Serializers();
 
-    public void ownEnderInv(Player player, int size, String name) {
+    public void ownEnderInv(final Player player, final int size, final Block block, String name) {
+        Echest = (EnderChest) block.getState();
+        Echest.open();
         enderPlus = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', name));
-        inv(player, player, size);
+        inv(player, player);
+
     }
 
-    public void otherEnderInv(Player sender, Player holder, int size, String name) {
-        if (!holder.getOpenInventory().getTopInventory().equals(enderPlus)) {
-            enderPlus = Bukkit.createInventory(holder, size, ChatColor.translateAlternateColorCodes('&', holder.getName() + "'s " + EnderPlus.getConfiguration().getString(name)));
-            inv(holder, sender, size);
-        }else sender.sendMessage(EnderPlus.getLang().getString("Prefix") + " You can't open " + holder.getName() + "'s EnderChest now");
+    public void ownEnderInv(final Player player, final int size, String name) {
+        enderPlus = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', name));
+        inv(player, player);
+
     }
 
-    private void inv(Player holder, Player sender, int size){
+    public void otherEnderInv(final Player sender, final Player holder, final int size, String name) {
+        if (!holder.getOpenInventory().getTitle().equalsIgnoreCase(name)){
+            enderPlus = Bukkit.createInventory(sender, size, holder.getName() + "'s " + ChatColor.translateAlternateColorCodes('&', name));
+            inv(sender, holder);
+        }
+
+    }
+
+    private void inv(final Player sender, final Player holder) {
         CompletableFuture.runAsync(() -> {
-            ItemStack[] items = utils.getItems(holder);
-            if (items.length > size) {
-                for (int i = 0; i < size; i++) {
-                    enderPlus.setItem(i, items[i]);
-                }
-            }else enderPlus.setContents(utils.getItems(holder));
-
+            final ArrayList<ItemStack> enderItems = utils.getItems(holder);
+            enderItems.forEach(enderPlus::addItem);
         }).thenRun(() -> new BukkitRunnable() {
             @Override
             public void run() {
@@ -56,6 +62,5 @@ public class InvUtils{
             }
         }.runTask(EnderPlus.getInstance()));
     }
-
 
 }

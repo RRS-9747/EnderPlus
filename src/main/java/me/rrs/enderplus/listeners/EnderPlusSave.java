@@ -13,9 +13,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class EnderPlusSave implements Listener {
 
@@ -41,18 +45,27 @@ public class EnderPlusSave implements Listener {
 
 
     private void items(final Inventory inv, final Player player) {
+        final ArrayList<ItemStack> prunedItems = new ArrayList<>();
+
+        Arrays.stream(inv.getContents())
+                .filter(Objects::nonNull)
+                .forEach(prunedItems::add);
+
         new BukkitRunnable() {
+
             @Override
             public void run() {
-                utils.storeItems(inv, player);
-                if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
+                utils.storeItems(prunedItems, player);
+                if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
                     try {
                         final EnderData enderData = Listeners.getPlayerFromDatabase(player);
-                        enderData.setData(Serializers.getEncodedItem());
-                        Listeners.getDatabase().updateEnderData(enderData);
+                        if (prunedItems.isEmpty()) {
+                            enderData.setData("");
+                        } else enderData.setData(Serializers.getEncodedItem());
+                        Listeners.database.updateEnderData(enderData);
                     } catch (final SQLException exception) {
                         exception.printStackTrace();
-                        Bukkit.getLogger().severe("[EnderPlus] Could not update EnderChest items after chest close!");
+                        Bukkit.getLogger().severe("Could not update EnderChest items after chest close!");
                     }
                 }
             }
