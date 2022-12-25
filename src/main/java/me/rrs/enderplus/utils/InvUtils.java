@@ -45,7 +45,7 @@ public class InvUtils {
 
     public void otherEnderInv(final Player sender, final Player holder, final int size, String name) {
         if (!holder.getOpenInventory().getTitle().equalsIgnoreCase(name)){
-            enderPlus = Bukkit.createInventory(sender, size, holder.getName() + "'s " + ChatColor.translateAlternateColorCodes('&', name));
+            enderPlus = Bukkit.createInventory(holder, size, holder.getName() + "'s " + ChatColor.translateAlternateColorCodes('&', name));
             inv(sender, holder);
         }
 

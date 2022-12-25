@@ -6,7 +6,7 @@
 
     <groupId>me.rrs</groupId>
     <artifactId>enderplus</artifactId>
-    <version>3.3</version>
+    <version>3.4</version>
     <packaging>jar</packaging>
 
     <name>EnderPlus</name>

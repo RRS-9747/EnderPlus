@@ -23,7 +23,7 @@ public class EnderPlusAPI {
         return i;
     }
 
-    public Inventory getEnderChest(Player holder, Player sender, String name, Plugin instance){
+    public Inventory openEnderChest(Player holder, Player sender, String name, Plugin instance){
         final Serializers utils = new Serializers();
         final Inventory enderPlus = Bukkit.createInventory(holder, getRow(holder), name);
         CompletableFuture.runAsync(() -> {
@@ -40,8 +40,6 @@ public class EnderPlusAPI {
 
         return enderPlus;
     }
-
-
 
 
 }

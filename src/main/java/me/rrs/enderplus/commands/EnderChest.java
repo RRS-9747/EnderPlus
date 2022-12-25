@@ -22,7 +22,7 @@ public class EnderChest implements CommandExecutor {
             final InvUtils invUtils = new InvUtils();
 
             if (0 < args.length) {
-                if (p.hasPermission("enderplus.ec.other.edit")) {
+                if (p.hasPermission("enderplus.ec.other") || p.hasPermission("enderplus.ec.other.edit")) {
                     final Player holder = Bukkit.getPlayer(args[0]);
                     if (null != holder) {
                         boolean opened = false;
