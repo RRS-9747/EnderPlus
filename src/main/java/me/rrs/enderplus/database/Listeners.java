@@ -7,11 +7,6 @@ import java.sql.SQLException;
 
 public class Listeners implements Listener {
 
-
-    public static Database getDatabase() {
-        return database;
-    }
-
     public static Database database;
 
     public Listeners(final Database database) {

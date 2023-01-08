@@ -1,6 +1,7 @@
 Version: ${project.version}
 Prefix: "[EnderPlus]"
-Reload: "Plugin reloaded!"
-Permission-Error: "You don't have permission to run this command!"
-NoPlayer: "No player found with that name!"
-No-Echest: "No EnderChest found!"
+Reload: "&aPlugin &creloaded&a!"
+Permission-Error: "&cYou &4don't &chave permission &4to run this command&c!"
+NoPlayer: "&cNo player found with that name&c!"
+No-Echest: "&cNo EnderChest found&c!"
+Saving: "&ePlease wait&e! It looks like someone is watching this enderchest or it's still saving."

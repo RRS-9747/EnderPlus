@@ -15,11 +15,10 @@ import me.rrs.enderplus.listeners.*;
 import me.rrs.enderplus.utils.UpdateAPI;
 import me.rrs.enderplus.utils.EnderPlusExpansion;
 import me.rrs.enderplus.utils.TabComplete;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,6 +73,7 @@ public final class EnderPlus extends JavaPlugin {
             return;
         }
 
+
         Bukkit.getLogger().info("");
         Bukkit.getLogger().info("███████╗███╗  ██╗██████╗ ███████╗██████╗ ██████╗ ██╗     ██╗   ██╗ ██████╗");
         Bukkit.getLogger().info("██╔════╝████╗ ██║██╔══██╗██╔════╝██╔══██╗██╔══██╗██║     ██║   ██║██╔════╝");
@@ -82,10 +82,8 @@ public final class EnderPlus extends JavaPlugin {
         Bukkit.getLogger().info("███████╗██║ ╚███║██████╔╝███████╗██║  ██║██║     ███████╗╚██████╔╝██████╔╝");
         Bukkit.getLogger().info("╚══════╝╚═╝  ╚══╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═════╝ ");
         Bukkit.getLogger().info("");
-        Bukkit.getLogger().info("--------------------------------------------------------------------------");
-        Bukkit.getLogger().info("[EnderPlus] EnderPlus " + getDescription().getVersion()+ " by RRS");
-
-        new Metrics(this, 14719);
+        log("\u00A7c--------------------------------------------------------------------------");
+        log("&4[&r&dEnderPlus&4] &r&dEnderPlus &bv" + getDescription().getVersion()+ " &4by&r &bRRS&r");
 
         getServer().getPluginManager().registerEvents(new EnderPlusOpen(), this);
         getServer().getPluginManager().registerEvents(new EnderPlusSave(), this);
@@ -95,63 +93,70 @@ public final class EnderPlus extends JavaPlugin {
         getCommand("enderchest").setExecutor(new EnderChest());
         getCommand("enderplus").setExecutor(new MainCommand());
         getCommand("enderplus").setTabCompleter(new TabComplete());
+
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             (new EnderPlusExpansion()).register();
         }
 
         databaseChecker();
         updateChecker();
-
-        Bukkit.getLogger().info("[EnderPlus] Enabled successfully!");
-        Bukkit.getLogger().info("--------------------------------------------------------------------------");
+        log("&4[&r&dEnderPlus&4] &aEnabled successfully!&r");
+        log("\u00A7c--------------------------------------------------------------------------");
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getLogger().warning("EnderPlus Disabled.");
     }
 
 
 
-    public void updateChecker(){
+    private void log(String log){
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', log));
+    }
+
+    public void updateChecker() {
         UpdateAPI updateAPI = new UpdateAPI();
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
-                    String version = updateAPI.getGithubVersion("RRS-9747", "EnderPlus");
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (p.hasPermission("enderplus.notify")) {
-                            p.sendMessage("--------------------------------");
-                            p.sendMessage("You are using EnderPlus " + EnderPlus.getInstance().getDescription().getVersion());
-                            p.sendMessage("However version " + version + " is available.");
-                            p.sendMessage("You can download it from: " + "https://www.spigotmc.org/resources/100897/");
-                            p.sendMessage("--------------------------------");
-                        }
+        String updateMessage = String.format(
+                "&7&m==============&r &b&lEnderPlus Update &r&7&m==============\n" +
+                        "&a&lHey there! &r&7You are using EnderPlus &7%s\n" +
+                        "&c&lWhoa! &r&7A &e&lnew version &ris available: &7%s\n" +
+                        "&a&lDon't miss out! &r&7Get the &d&lupdate &rat: &7https://www.spigotmc.org/resources/100897/\n" +
+                        "&7&m==============&r &b&lEnderPlus Update &r&7&m==============",
+                EnderPlus.getInstance().getDescription().getVersion(),
+                updateAPI.getGithubVersion("RRS-9747", "EnderPlus")
+        );
+        Runnable updateCheckTask = () -> {
+            if (updateAPI.hasGithubUpdate("RRS-9747", "EnderPlus")) {
+                String message = ChatColor.translateAlternateColorCodes('&', updateMessage);
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.hasPermission("enderplus.notify")) {
+                        p.sendMessage(message);
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(this, 0L, 20L * 60 * config.getInt("Config.Update-Checker-Interval"));
+        };
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, updateCheckTask, 0, 20L * 60 * config.getInt("Config.Update-Checker-Interval"));
     }
 
-    public void databaseChecker(){
+    private void databaseChecker() {
         if (Boolean.TRUE.equals(config.getBoolean("Database.Enable"))) {
-            Bukkit.getLogger().info("[EnderPlus] Enabling Database");
+            log("&a&l[EnderPlus] &r&7Enabling Database");
             Database database;
             try {
                 database = new Database();
                 database.initializeDatabase();
             } catch (final SQLException e) {
                 e.printStackTrace();
-                Bukkit.getLogger().severe("[EnderPlus] Could not initialize database.");
-                Bukkit.getLogger().info("[EnderPlus] Please check database info and make sure you have internet connection.");
-                Bukkit.getLogger().severe("[EnderPlus] Disabling now");
+                log("&c&l[EnderPlus] &r&7Could not initialize database.\n" +
+                        "&c&l[EnderPlus] &r&7Please check database info and make sure you have internet connection.\n" +
+                        "&c&l[EnderPlus] &r&7Disabling now");
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
             }
             getServer().getPluginManager().registerEvents(new Listeners(database), this);
         }
     }
+
 
 }
 

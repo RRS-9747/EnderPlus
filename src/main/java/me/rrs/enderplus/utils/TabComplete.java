@@ -13,6 +13,7 @@ import java.util.List;
 public class TabComplete implements TabCompleter {
 
     private final List<String> results = new ArrayList<>();
+    private final List<String> completions = new ArrayList<>();
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -25,12 +26,9 @@ public class TabComplete implements TabCompleter {
     }
 
     private List<String> sortedResults(final String arg) {
-        final List<String> completions = new ArrayList<>();
+        completions.clear();
         StringUtil.copyPartialMatches(arg, results, completions);
         Collections.sort(completions);
-        results.clear();
-        results.addAll(completions);
-        return results;
-
+        return completions;
     }
 }

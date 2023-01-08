@@ -27,11 +27,12 @@ public class EnderPlusExpansion extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, String params) {
         if (!params.equalsIgnoreCase("row")) {
             Player p = player.getPlayer();
-            int i;
-            for (i = 6; 0 < i; i--) {
+            int i = 6;
+            while (i > 0) {
                 if (p != null && p.hasPermission("enderplus.lvl." + i)) {
                     break;
                 }
+                i--;
             }
             return String.valueOf(i);
         }

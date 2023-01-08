@@ -24,10 +24,9 @@ import java.util.*;
 public class PlayerJoin implements Listener {
 
 
-    protected final Date date = new Date();
-    protected final DateFormat dateFormat = new SimpleDateFormat("dd/MM");
-    protected final String currentDate = dateFormat.format(date);
-    final Serializers utils = new Serializers();
+    private final Date date = new Date();
+    private final DateFormat dateFormat = new SimpleDateFormat("dd/MM");
+    private final String currentDate = dateFormat.format(date);
 
 
     @EventHandler
@@ -44,9 +43,7 @@ public class PlayerJoin implements Listener {
                 event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[EnderPlus]&r Today is my Birthday :D Leave a review on spigot as a gift :3"));
             }
         }
-
-
-        if (EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin")) {
+        if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin"))) {
             if (!event.getPlayer().getEnderChest().isEmpty()) {
 
                 final ArrayList<ItemStack> prunedItems = new ArrayList<>();
@@ -65,7 +62,7 @@ public class PlayerJoin implements Listener {
         private final ArrayList<? extends ItemStack> prunedItems;
         private final Player p;
 
-        private MyBukkitRunnable(final ArrayList<? extends ItemStack> prunedItems, final Player p) {
+        private MyBukkitRunnable(final ArrayList<ItemStack> prunedItems, final Player p) {
             this.prunedItems = prunedItems;
             this.p = p;
         }
@@ -74,7 +71,7 @@ public class PlayerJoin implements Listener {
         @Override
         public void run() {
             utils.storeItems(this.prunedItems, this.p);
-            if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
+            if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
                 try {
                     final EnderData enderData = Listeners.getPlayerFromDatabase(this.p);
 

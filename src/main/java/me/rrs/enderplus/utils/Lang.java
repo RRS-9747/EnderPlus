@@ -9,10 +9,14 @@ import org.bukkit.entity.Player;
 public class Lang {
 
 
+    private final boolean usePlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+
     public void msg(String prefix, String path, Player player) {
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            player.sendMessage(PlaceholderAPI.setPlaceholders(player, ChatColor.translateAlternateColorCodes('&', prefix + " " + EnderPlus.getLang().getString(path))));
-        } else player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + EnderPlus.getLang().getString(path)));
+        String message = ChatColor.translateAlternateColorCodes('&', prefix + "&r " + EnderPlus.getLang().getString(path));
+        if (usePlaceholderAPI) {
+            message = PlaceholderAPI.setPlaceholders(player, message);
+        }
+        player.sendMessage(message);
     }
 
     public void noPerm(Player player) {
@@ -20,7 +24,7 @@ public class Lang {
     }
 
     public void pcmd() {
-        Bukkit.getLogger().severe(EnderPlus.getLang().getString("Player-Command"));
-
+        String message = EnderPlus.getLang().getString("Player-Command");
+        Bukkit.getLogger().severe(message);
     }
 }

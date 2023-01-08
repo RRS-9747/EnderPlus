@@ -6,7 +6,7 @@
 
     <groupId>me.rrs</groupId>
     <artifactId>enderplus</artifactId>
-    <version>3.4</version>
+    <version>3.5</version>
     <packaging>jar</packaging>
 
     <name>EnderPlus</name>
@@ -103,6 +103,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.21.12</version>
+        </dependency>
+        <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
             <version>2.11.1</version>
@@ -139,4 +144,3 @@
         </dependency>
     </dependencies>
 </project>
-

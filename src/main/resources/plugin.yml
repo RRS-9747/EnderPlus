@@ -15,7 +15,6 @@ commands:
       - echest
     description: Access custom enderchest with command.
     permission: enderplus.ec.own
-    permission-message: You don't have permission to run this command!
     usage: /enderchest
   enderplus:
     aliases:
@@ -34,6 +33,8 @@ permissions:
     description: Set EnderChest to 45 slot
   enderplus.lvl.6:
     description: Set EnderChest to 54 slot
+  enderplus.blacklist.bypass:
+    description: bypass blacklisted item filter
   enderplus.ec.own:
     description: Open own Enderchest by command
   enderplus.ec.other:

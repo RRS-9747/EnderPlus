@@ -26,13 +26,14 @@ public class Serializers {
     private static String encodedItem;
 
 
+    private final NamespacedKey NAMESPACED_KEY = new NamespacedKey(EnderPlus.getInstance(), "EnderPlus");
+    private final Base64.Encoder BASE64_ENCODER = Base64.getEncoder();
 
     public void storeItems(ArrayList<? extends ItemStack> items, Player p) {
-
         final PersistentDataContainer data = p.getPersistentDataContainer();
 
         if (items.isEmpty()) {
-            data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
+            data.set(NAMESPACED_KEY, PersistentDataType.STRING, "");
         } else {
             try {
                 final ByteArrayOutputStream io = new ByteArrayOutputStream();
@@ -46,10 +47,10 @@ public class Serializers {
 
                 byte[] rawData = io.toByteArray();
 
-                String encodedData = Base64.getEncoder().encodeToString(rawData);
+                String encodedData = BASE64_ENCODER.encodeToString(rawData);
                 encodedItem = encodedData;
 
-                data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, encodedData);
+                data.set(NAMESPACED_KEY, PersistentDataType.STRING, encodedData);
 
                 os.close();
                 io.close();
@@ -60,13 +61,16 @@ public class Serializers {
         }
     }
 
-
-    public ArrayList<ItemStack> getItems(final Player p) {
+    public ArrayList<ItemStack> retrieveItems(final Player p) {
 
         String encodedItems;
 
         final PersistentDataContainer data = p.getPersistentDataContainer();
         final ArrayList<ItemStack> items = new ArrayList<>();
+
+        if (!data.has(NAMESPACED_KEY, PersistentDataType.STRING)) {
+            return items;
+        }
 
         if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
             try {
@@ -76,9 +80,9 @@ public class Serializers {
                 throw new RuntimeException(e);
             }
         } else {
-            encodedItems = data.get(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING);
+            encodedItems = data.get(NAMESPACED_KEY, PersistentDataType.STRING);
         }
-        if (!encodedItems.isEmpty()) {
+        if (encodedItems != null && !encodedItems.isEmpty()) {
             final byte[] rawData = Base64.getDecoder().decode(encodedItems);
             try {
                 final ByteArrayInputStream io = new ByteArrayInputStream(rawData);
@@ -95,5 +99,4 @@ public class Serializers {
         }
         return items;
     }
-
 }

@@ -5,7 +5,9 @@ import me.rrs.enderplus.database.EnderData;
 import me.rrs.enderplus.database.Listeners;
 import me.rrs.enderplus.utils.Serializers;
 import me.rrs.enderplus.utils.InvUtils;
+import me.rrs.enderplus.utils.Storage;
 import org.bukkit.Bukkit;
+import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,11 +17,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class EnderPlusSave implements Listener {
 
@@ -37,9 +38,18 @@ public class EnderPlusSave implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(final InventoryCloseEvent e) {
         if (e.getInventory().equals(InvUtils.getEnderPlus())) {
-            Player player = (Player) e.getInventory().getHolder();
-            items(e.getInventory(), player);
-            if (null != InvUtils.getEchest()) InvUtils.getEchest().close();
+            Player holder = (Player) e.getInventory().getHolder();
+
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            items(e.getInventory(), holder);
+            scheduler.runTask(EnderPlus.getInstance(), () -> Storage.STATUS.remove(holder));
+
+            EnderChest enderChest = Storage.ENDER_CHEST.get(holder);
+            if (enderChest != null){
+                enderChest.close();
+                Storage.ENDER_CHEST.remove(holder);
+
+            }
         }
     }
 
@@ -56,7 +66,7 @@ public class EnderPlusSave implements Listener {
             @Override
             public void run() {
                 utils.storeItems(prunedItems, player);
-                if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
+                if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
                     try {
                         final EnderData enderData = Listeners.getPlayerFromDatabase(player);
                         if (prunedItems.isEmpty()) {

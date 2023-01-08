@@ -22,6 +22,8 @@ public class UpdateAPI {
         }
     }
 
+
+
     public String getGithubVersion(final String owner, final String repository) {
         try (final InputStream inputStream = new URL(
                 "https://api.github.com/repos/" + owner + "/" + repository + "/releases/latest").openStream()) {
