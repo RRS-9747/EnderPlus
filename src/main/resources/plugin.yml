@@ -1,0 +1,48 @@
+name: EnderPlus
+version: ${project.version}
+main: me.rrs.enderplus.EnderPlus
+api-version: 1.13
+authors: [ RRS ]
+softdepend:
+  - PlaceholderAPI
+prefix: EnderPlus
+description: Better EnderChest for your server
+website: https://discord.gg/fV4P2yMSgR
+commands:
+  enderchest:
+    aliases:
+      - ec
+      - echest
+    description: Access custom enderchest with command.
+    permission: enderplus.ec.own
+    usage: /enderchest
+  enderplus:
+    aliases:
+      - ep
+    description: Main command of EnderPlus
+permissions:
+  enderplus.lvl.1:
+    description: Set EnderChest to 9 slot
+  enderplus.lvl.2:
+    description: Set EnderChest to 18 slot
+  enderplus.lvl.3:
+    description: Set EnderChest to 27 slot
+  enderplus.lvl.4:
+    description: Set EnderChest to 36 slot
+  enderplus.lvl.5:
+    description: Set EnderChest to 45 slot
+  enderplus.lvl.6:
+    description: Set EnderChest to 54 slot
+  enderplus.blacklist.bypass:
+    description: bypass blacklisted item filter
+  enderplus.ec.own:
+    description: Open own Enderchest by command
+  enderplus.ec.other:
+    description: view other players Enderchest by command
+    default: false
+  enderplus.ec.other.edit:
+    description: Open other players Enderchest by command
+  enderplus.notify:
+    description: Get notify about update/announcement
+  enderplus.reload:
+    description: Reload EnderPlus plugin

@@ -1,0 +1,27 @@
+# Thanks for using EnderPlus.
+# For bug report or suggestion, join https://discord.gg/fV4P2yMSgR
+# Use LuckPerms for permission
+# Don't change Config.Version or plugin will break
+
+Config:
+  Update-Checker-Interval: 10 # In Minute.
+  Version: ${project.version}
+
+Database:
+  Enable: false
+  URL: "localhost"
+  User: "root"
+  Password: ""
+
+EnderChest:
+  Name:
+    row-1: "EnderChest-1"
+    row-2: "EnderChest-2"
+    row-3: "EnderChest-3"
+    row-4: "EnderChest-4"
+    row-5: "EnderChest-5"
+    row-6: "EnderChest-6"
+  Convert-onJoin: true
+  Blacklist:
+    -
+    -
