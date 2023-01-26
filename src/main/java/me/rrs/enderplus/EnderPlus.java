@@ -92,7 +92,7 @@ public final class EnderPlus extends JavaPlugin {
         Bukkit.getLogger().info("███████╗██║ ╚███║██████╔╝███████╗██║  ██║██║     ███████╗╚██████╔╝██████╔╝");
         Bukkit.getLogger().info("╚══════╝╚═╝  ╚══╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═════╝ ");
         Bukkit.getLogger().info("");
-        log("\u00A7c--------------------------------------------------------------------------");
+        log("&c--------------------------------------------------------------------------");
         log("&4[&r&dEnderPlus&4] &r&dEnderPlus &bv" + getDescription().getVersion()+ " &4by&r &bRRS&r");
 
         getServer().getPluginManager().registerEvents(new EnderPlusOpen(), this);
@@ -108,12 +108,13 @@ public final class EnderPlus extends JavaPlugin {
             (new EnderPlusExpansion()).register();
         }
 
-        database = new me.rrs.enderplus.utils.Database();
+        database = new Database();
         database.setupDataSource();
         database.createTable();
+
         updateChecker();
         log("&4[&r&dEnderPlus&4] &aEnabled successfully!&r");
-        log("\u00A7c--------------------------------------------------------------------------");
+        log("&c--------------------------------------------------------------------------");
     }
 
     @Override

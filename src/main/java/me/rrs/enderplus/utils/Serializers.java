@@ -17,49 +17,48 @@ import java.util.Base64;
 
 public class Serializers {
 
-    public static String getEncodedItem() {
-        return encodedItem;
-    }
+    public static final NamespacedKey NAMESPACED_KEY = new NamespacedKey(EnderPlus.getInstance(), "EnderPlus");
 
-    private static String encodedItem;
+    public static String serialize(ItemStack[] itemStacks) {
+        try {
+            ByteArrayOutputStream io = new ByteArrayOutputStream();
+            BukkitObjectOutputStream in = new BukkitObjectOutputStream(io);
 
+            in.writeInt(itemStacks.length);
 
-    private final NamespacedKey NAMESPACED_KEY = new NamespacedKey(EnderPlus.getInstance(), "EnderPlus");
-    private final Base64.Encoder BASE64_ENCODER = Base64.getEncoder();
-
-    public void storeItems(ArrayList<? extends ItemStack> items, Player p) {
-        final PersistentDataContainer data = p.getPersistentDataContainer();
-
-        if (items.isEmpty()) {
-            data.set(NAMESPACED_KEY, PersistentDataType.STRING, "");
-        } else {
-            try {
-                final ByteArrayOutputStream io = new ByteArrayOutputStream();
-                final BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
-                os.writeInt(items.size());
-                for (ItemStack item : items) {
-                    os.writeObject(item);
-                }
-                os.flush();
-                io.flush();
-
-                byte[] rawData = io.toByteArray();
-
-                String encodedData = BASE64_ENCODER.encodeToString(rawData);
-                encodedItem = encodedData;
-
-                data.set(NAMESPACED_KEY, PersistentDataType.STRING, encodedData);
-
-                os.close();
-                io.close();
-
-            } catch (final IOException ex) {
-                ex.printStackTrace();
+            for (ItemStack itemStack : itemStacks) {
+                in.writeObject(itemStack);
             }
+
+            in.close();
+            io.close();
+
+            return Base64.getEncoder().encodeToString(io.toByteArray());
+        } catch (Exception exception) {
+            throw new IllegalStateException(exception);
         }
     }
 
-    public ArrayList<ItemStack> retrieveItems(final Player p) {
+    public static ItemStack[] deserialize(String encodedData) {
+        if(encodedData == null || encodedData.isEmpty()) return new ItemStack[0];
+        try {
+            ByteArrayInputStream io = new ByteArrayInputStream(Base64.getDecoder().decode(encodedData));
+            BukkitObjectInputStream in = new BukkitObjectInputStream(io);
+            ItemStack[] items = new ItemStack[in.readInt()];
+
+            for (int i = 0; i < items.length; i++) {
+                items[i] = (ItemStack) in.readObject();
+            }
+
+            io.close();
+            return items;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ItemStack[0];
+        }
+    }
+
+    public static ArrayList<ItemStack> retrieveItems(final Player p) {
 
         String encodedItems;
 
@@ -70,7 +69,7 @@ public class Serializers {
             return items;
         }
 
-        if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
+        if (EnderPlus.getConfiguration().getBoolean("Database.Enable")) {
             try {
                 encodedItems = EnderPlus.getDatabase().getDataByUuid(p.getUniqueId().toString());
             } catch (final Exception e) {

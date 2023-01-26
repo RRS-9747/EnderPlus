@@ -7,14 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class InvUtils {
     private static Inventory enderPlus;
-    Serializers utils = new Serializers();
     Lang lang = new Lang();
     public static Inventory getEnderPlus() {
         return enderPlus;
@@ -33,9 +30,14 @@ public class InvUtils {
         }
 
         CompletableFuture.runAsync(() -> {
-            ArrayList<ItemStack> enderItems = utils.retrieveItems(holder);
-            enderItems.forEach(enderPlus::addItem);
-                }).thenRun(() -> new BukkitRunnable() {
+            String encodedData;
+            if (EnderPlus.getConfiguration().getBoolean("Config.Online")){
+                encodedData = EnderPlus.getDatabase().getDataByUuid(holder.getUniqueId().toString());
+            }else encodedData = EnderPlus.getDatabase().getDataByPlayerName(holder.getName());
+
+            ItemStack[] deserializedItems = Serializers.deserialize(encodedData);
+            enderPlus.setContents(deserializedItems);
+        }).thenRun(() -> new BukkitRunnable() {
             @Override
             public void run() {
                 sender.openInventory(enderPlus);
@@ -44,5 +46,8 @@ public class InvUtils {
             }
         }.runTask(EnderPlus.getInstance()));
     }
+
+
+
 
 }

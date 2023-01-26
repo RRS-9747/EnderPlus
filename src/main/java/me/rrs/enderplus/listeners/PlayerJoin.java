@@ -2,16 +2,16 @@ package me.rrs.enderplus.listeners;
 
 import me.rrs.enderplus.EnderPlus;
 import me.rrs.enderplus.utils.Serializers;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,53 +27,39 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        final Player p = event.getPlayer();
-        final PersistentDataContainer data = p.getPersistentDataContainer();
-
-        if (!data.has(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING)) {
-            data.set(new NamespacedKey(EnderPlus.getInstance(), "EnderPlus"), PersistentDataType.STRING, "");
-        }
+        final Player player = event.getPlayer();
 
         if ("23/3".equals(this.currentDate)) {
-            if (event.getPlayer().hasPermission("enderplus.notify")) {
-                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[EnderPlus]&r Today is my Birthday :D Leave a review on spigot as a gift :3"));
+            if (player.hasPermission("enderplus.notify")) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&l[EnderPlus]&r Today is my Birthday :D Leave a review on spigot as a gift :3"));
             }
         }
-        if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin"))) {
-            if (!event.getPlayer().getEnderChest().isEmpty()) {
 
-                final ArrayList<ItemStack> prunedItems = new ArrayList<>();
-
-                Arrays.stream(event.getPlayer().getEnderChest().getContents())
-                        .filter(Objects::nonNull)
-                        .forEach(prunedItems::add);
-
-                new MyBukkitRunnable(prunedItems, p).runTaskAsynchronously(EnderPlus.getInstance());
-                event.getPlayer().getEnderChest().clear();
+        PersistentDataContainer container = player.getPersistentDataContainer();
+        if (container.has(Serializers.NAMESPACED_KEY, PersistentDataType.STRING)){
+            ArrayList<ItemStack> enderItems = Serializers.retrieveItems(player);
+            if (!enderItems.isEmpty()) {
+                Inventory tempInv = Bukkit.createInventory(player, 54);
+                enderItems.forEach(tempInv::addItem);
+                if (EnderPlus.getConfiguration().getBoolean("Config.Online")){
+                    EnderPlus.getDatabase().storeDataByUuid(player.getName(), player.getUniqueId().toString(), Serializers.serialize(tempInv.getContents()));
+                }else EnderPlus.getDatabase().storeDataByName(player.getName(), player.getUniqueId().toString(), Serializers.serialize(tempInv.getContents()));
+                container.remove(Serializers.NAMESPACED_KEY);
+                return;
             }
         }
-    }
 
-    private static class MyBukkitRunnable extends BukkitRunnable {
-        private final ArrayList<? extends ItemStack> prunedItems;
-        private final Player p;
 
-        private MyBukkitRunnable(final ArrayList<ItemStack> prunedItems, final Player p) {
-            this.prunedItems = prunedItems;
-            this.p = p;
-        }
-        Serializers utils = new Serializers();
-
-        @Override
-        public void run() {
-            utils.storeItems(this.prunedItems, this.p);
-            if (Boolean.TRUE.equals(EnderPlus.getConfiguration().getBoolean("Database.Enable"))) {
-
-                if (this.prunedItems.isEmpty()) {
-                    EnderPlus.getDatabase().storeDataByUuid(p.getName(), p.getUniqueId().toString(), "");
-                } else EnderPlus.getDatabase().storeDataByUuid(p.getName(), p.getUniqueId().toString(), Serializers.getEncodedItem());
-
+        if (EnderPlus.getConfiguration().getBoolean("EnderChest.Convert-onJoin")) {
+            if (!player.getEnderChest().isEmpty()) {
+                if (EnderPlus.getConfiguration().getBoolean("Config.Online")) {
+                    EnderPlus.getDatabase().storeDataByUuid(player.getName(), player.getUniqueId().toString(), Serializers.serialize(player.getEnderChest().getContents()));
+                } else {
+                    EnderPlus.getDatabase().storeDataByName(player.getName(), player.getUniqueId().toString(), Serializers.serialize(player.getEnderChest().getContents()));
+                }
+                player.getEnderChest().clear();
             }
+
         }
     }
 

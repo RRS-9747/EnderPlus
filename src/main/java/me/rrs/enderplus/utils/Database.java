@@ -26,13 +26,22 @@ public class Database {
     }
 
     public void storeDataByUuid(String name, String uuid, String data) {
+        String sql = "";
+        if (dataSource.getJdbcUrl().contains("mysql")) {
+            sql = "INSERT INTO enderplus (name, uuid, data) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE name = ?, data = ?";
+        } else if (dataSource.getJdbcUrl().contains("sqlite")) {
+            sql = "INSERT OR REPLACE INTO enderplus (name, uuid, data) VALUES (?, ?, ?)";
+        }
+
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO enderplus (name, uuid, data) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE name = ?, data = ?;")) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
             statement.setString(2, uuid);
             statement.setString(3, data);
-            statement.setString(4, name);
-            statement.setString(5, data);
+            if (dataSource.getJdbcUrl().contains("mysql")) {
+                statement.setString(4, name);
+                statement.setString(5, data);
+            }
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,23 +49,33 @@ public class Database {
     }
 
     public void storeDataByName(String name, String uuid, String data) {
+        String sql = "";
+        if (dataSource.getJdbcUrl().contains("mysql")) {
+            sql = "INSERT INTO enderplus (name, uuid, data) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE uuid = ?, data = ?";
+        } else if (dataSource.getJdbcUrl().contains("sqlite")) {
+            sql = "INSERT OR REPLACE INTO enderplus (name, uuid, data) VALUES (?, ?, ?)";
+        }
+
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO enderplus (name, uuid, data) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE uuid = ?, data = ?;")) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
             statement.setString(2, uuid);
             statement.setString(3, data);
-            statement.setString(4, uuid);
-            statement.setString(5, data);
+            if (dataSource.getJdbcUrl().contains("mysql")) {
+                statement.setString(4, uuid);
+                statement.setString(5, data);
+            }
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
     public String getDataByUuid(String uuid) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM enderplus WHERE uuid = ?;")) {
-            statement.setString(2, uuid);
+            statement.setString(1, uuid);
             try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {
                     return result.getString("data");
