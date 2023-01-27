@@ -17,6 +17,7 @@ import me.rrs.enderplus.utils.TabComplete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public final class EnderPlus extends JavaPlugin {
 
 
     public static Map<Player, Boolean> STATUS;
+    public static Map<Player, Inventory> ENDER_PLUS;
     public static Map<Player, org.bukkit.block.EnderChest> ENDER_CHEST;
 
 
@@ -81,6 +83,7 @@ public final class EnderPlus extends JavaPlugin {
             return;
         }
         STATUS = new HashMap<>();
+        ENDER_PLUS = new HashMap<>();
         ENDER_CHEST = new HashMap<>();
 
 

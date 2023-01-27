@@ -30,8 +30,11 @@ public class EnderPlusSave implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(final InventoryCloseEvent e) {
-        if (e.getInventory().equals(InvUtils.getEnderPlus())) {
-            Player holder = (Player) e.getInventory().getHolder();
+        Player holder = (Player) e.getInventory().getHolder();
+
+        if (EnderPlus.ENDER_PLUS.get(holder) != null && e.getInventory().equals(EnderPlus.ENDER_PLUS.get(holder))) {
+
+            EnderPlus.ENDER_PLUS.replace(holder, e.getInventory());
 
             Bukkit.getScheduler().runTaskAsynchronously(EnderPlus.getInstance(), () -> {
                 String encodedData = Serializers.serialize(e.getInventory().getContents());

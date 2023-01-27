@@ -28,7 +28,7 @@ public class EnderChest implements CommandExecutor {
                         boolean opened = false;
                         for (int i = 6; 0 < i; i--) {
                             if (holder.hasPermission("enderplus.lvl." + i)) {
-                                invUtils.openEnderInv(p, holder, i * 9, EnderPlus.getConfiguration().getString("EnderChest.Name.row-" + i), false);
+                                invUtils.openEnderInv(p, holder, i * 9, holder.getName() + "'s " + EnderPlus.getConfiguration().getString("EnderChest.Name.row-" + i));
                                 opened = true;
                                 break;
                             }
@@ -42,7 +42,7 @@ public class EnderChest implements CommandExecutor {
                     boolean opened = false;
                     for (int i = 6; 0 < i; i--) {
                         if (p.hasPermission("enderplus.lvl." + i)) {
-                            invUtils.openEnderInv(p, p,i * 9, EnderPlus.getConfiguration().getString("EnderChest.Name.row-" + i), true);
+                            invUtils.openEnderInv(p, p,i * 9, EnderPlus.getConfiguration().getString("EnderChest.Name.row-" + i));
                             opened = true;
                             break;
                         }

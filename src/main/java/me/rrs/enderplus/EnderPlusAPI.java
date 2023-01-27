@@ -30,7 +30,7 @@ public class EnderPlusAPI {
         for (i = 6; i > 0; i--) {
             if (holder.hasPermission(String.format("enderplus.lvl.%d", i)) || holder.hasPermission("enderplus.lvl.*")) {
                 String rowName = config.getString("EnderChest.Name.row-" + i);
-                invUtils.openEnderInv(sender, holder, i * 9, rowName, isOwnInv);
+                invUtils.openEnderInv(sender, holder, i * 9, rowName);
                 break;
             }
         }

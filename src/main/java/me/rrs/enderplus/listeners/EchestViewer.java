@@ -1,5 +1,6 @@
 package me.rrs.enderplus.listeners;
 
+import me.rrs.enderplus.EnderPlus;
 import me.rrs.enderplus.utils.InvUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,9 +17,11 @@ public class EchestViewer implements Listener {
     @EventHandler
     public void onInvView(InventoryClickEvent event) {
         Inventory topInv = event.getView().getTopInventory();
-        if (!topInv.equals(InvUtils.getEnderPlus())) return;
-
         Player holder = (Player) event.getInventory().getHolder();
+
+        if (EnderPlus.ENDER_PLUS.get(holder) == null || !event.getInventory().equals(EnderPlus.ENDER_PLUS.get(holder))){
+            return;
+        }
         if (holder == null) return;
 
         List<Player> viewers = event.getViewers().stream()

@@ -17,17 +17,19 @@ public class InvUtils {
         return enderPlus;
     }
 
-    public void openEnderInv(final Player sender, final Player holder, final int size, String name, boolean isOwnInv) {
+    public void openEnderInv(final Player sender, final Player holder, final int size, String name) {
         EnderPlus.STATUS.putIfAbsent(holder, false);
         if (EnderPlus.STATUS.get(holder)){
             lang.msg("&c&l" + EnderPlus.getLang().getString("Prefix"), "Saving", sender);
             return;
         }
-        if (isOwnInv) {
+
+        if (EnderPlus.ENDER_PLUS.get(holder) == null){
             enderPlus = Bukkit.createInventory(holder, size, ChatColor.translateAlternateColorCodes('&', name));
-        } else {
-            enderPlus = Bukkit.createInventory(holder, size, holder.getName() + "'s " + ChatColor.translateAlternateColorCodes('&', name));
-        }
+            EnderPlus.ENDER_PLUS.put(holder, enderPlus);
+        }else enderPlus = EnderPlus.ENDER_PLUS.get(holder);
+
+
 
         CompletableFuture.runAsync(() -> {
             String encodedData;

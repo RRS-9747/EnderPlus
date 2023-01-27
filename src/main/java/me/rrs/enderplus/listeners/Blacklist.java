@@ -16,7 +16,10 @@ public class Blacklist implements Listener {
     @EventHandler
     public void onItemDrag(InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (!event.getInventory().equals(InvUtils.getEnderPlus()) || player.hasPermission("enderplus.blacklist.bypass")) {
+        Player holder = (Player) event.getInventory().getHolder();
+        if (EnderPlus.ENDER_PLUS.get(holder) == null ||
+                !event.getInventory().equals(EnderPlus.ENDER_PLUS.get(holder)) ||
+                player.hasPermission("enderplus.blacklist.bypass")) {
             return;
         }
         List<String> blacklist = EnderPlus.getConfiguration().getStringList("EnderChest.Blacklist");
@@ -30,7 +33,12 @@ public class Blacklist implements Listener {
     public void onItemClick(InventoryClickEvent event) {
         ItemStack item = event.getCurrentItem();
         Player player = (Player) event.getWhoClicked();
-        if (item == null || player.hasPermission("enderplus.blacklist.bypass")) {
+        Player holder = (Player) event.getInventory().getHolder();
+
+        if (EnderPlus.ENDER_PLUS.get(holder) == null ||
+                !event.getInventory().equals(EnderPlus.ENDER_PLUS.get(holder)) ||
+                item == null ||
+                player.hasPermission("enderplus.blacklist.bypass")) {
             return;
         }
         if (!event.getView().getTopInventory().equals(InvUtils.getEnderPlus())) {

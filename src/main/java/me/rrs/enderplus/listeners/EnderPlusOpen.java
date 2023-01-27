@@ -36,7 +36,7 @@ public class EnderPlusOpen implements Listener {
         for (i = 6; i > 0; i--) {
             if (player.hasPermission(String.format("enderplus.lvl.%d", i)) || player.hasPermission("enderplus.lvl.*")) {
                 String rowName = config.getString("EnderChest.Name.row-" + i);
-                invUtils.openEnderInv(player, player, i * 9, rowName, true);
+                invUtils.openEnderInv(player, player, i * 9, rowName);
 
                 EnderPlus.ENDER_CHEST.put(player, (EnderChest)block.getState());
                 EnderChest enderChest = EnderPlus.ENDER_CHEST.get(player);
